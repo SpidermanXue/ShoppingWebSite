@@ -110,16 +110,10 @@ INSERT INTO products (cid, name, SKU, price) VALUES(4, 'Xbox 360',          '405
 INSERT INTO products (cid, name, SKU, price) VALUES(4, 'Nintendo Wii U ',    '407033',  430);
 INSERT INTO products (cid, name, SKU, price) VALUES(4, 'Nintendo Wii',      '408076',   232);
 
--- should be removed for project 2.
-CREATE TABLE cart_history (
-    id          SERIAL PRIMARY KEY,
-    uid         INTEGER REFERENCES users (id) NOT NULL
-);
 
 CREATE TABLE sales (
     id          SERIAL PRIMARY KEY,
     uid         INTEGER REFERENCES users (id) NOT NULL,
-    cart_id     INTEGER REFERENCES cart_history (id) NOT NULL, -- should be removed for project 2.
     pid         INTEGER REFERENCES products (id) NOT NULL,
     quantity    INTEGER NOT NULL,
     price       INTEGER NOT NULL

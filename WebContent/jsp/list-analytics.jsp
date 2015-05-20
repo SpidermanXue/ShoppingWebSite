@@ -10,7 +10,9 @@ don't want to. -->
 <%
 	List<CategoryWithCount> categories = CategoriesHelper
 			.listCategories();
-	List<AnalyticsList> list = AnalyticsHelper.getList("C1");
+	//List<AnalyticsList> list = AnalyticsHelper.getList("C1");
+	AnalyticsHelper ah = new AnalyticsHelper(2);
+	ah.getTitleList();
 %>
 <div align="right">
 <select style="color:#00000F">
