@@ -13,6 +13,7 @@ don't want to. -->
 	//List<AnalyticsList> list = AnalyticsHelper.getList("C1");
 	AnalyticsHelper ah = new AnalyticsHelper(2);
 	ah.getTitleList();
+	ah.getAnalyticDataList(65663);
 %>
 <div align="right">
 <select style="color:#00000F">

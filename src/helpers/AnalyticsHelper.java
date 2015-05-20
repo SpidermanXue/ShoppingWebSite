@@ -62,6 +62,34 @@ public class AnalyticsHelper {
 		}
 	}
 	
+	public static List<AnalyticsData> getAnalyticDataList(int pid) throws Exception{
+		List<AnalyticsData> res = new ArrayList<AnalyticsData>();
+		Statement stmt = null;
+		try{
+			if(tableReady){
+				throw new Exception("fuckedupagain");
+			}
+			String query = "SELECT uid, uname, pid , pname, (SUM(quan)) * price AS SUM FROM MyTempTable "
+					+ "where pid = '" + pid +"' GROUP BY uid, uname, pid, pname, price "
+					+ "ORDER BY SUM DESC ,uname ASC limit 20";
+;
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			
+			while(rs.next()){
+				AnalyticsData at = new AnalyticsData();
+				at.uname = rs.getString(2);
+				at.sum = rs.getInt(5);
+				res.add(at);
+				System.out.println(at.uname + "\n");
+			}
+			return res;
+		}catch(Exception e){
+			System.err.println("Some error happened when getting the title.<br/>" + e.getLocalizedMessage());
+			return new ArrayList<AnalyticsData>();
+		}
+	}
+	
 	
 	
 	public static void closeAll(){
