@@ -10,6 +10,7 @@ don't want to. -->
 <%
 	List<CategoryWithCount> categories = CategoriesHelper
 			.listCategories();
+	List<AnalyticsList> list = AnalyticsHelper.getList("C1");
 %>
 <div align="right">
 <select style="color:#00000F">
@@ -17,7 +18,7 @@ don't want to. -->
   <%
   	for (CategoryWithCount cwc : categories){
   %>
-  <option><%=cwc.getName()%></option>
+  <option><%=cwc.getName()%></option>  <!-- DROPDOWN TO GET THE NAME OF CATEGORY -->
   <%
   	}
   %>
@@ -27,6 +28,12 @@ don't want to. -->
     class="table table-striped"
     align="center">
     <thead>
+        <!-- 
+        The <thead> tag is used to group header content in an HTML table.
+		<tfoot> tag is to group the foot of the table 
+		<tbody> tag is to use as the main body part of a table
+         -->
+         
         <tr align="center">
             <th width="20%"><B>Category Name</B></th>
             <th width="60%"><B>Category Description</B></th>

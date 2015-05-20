@@ -31,9 +31,11 @@ public class CategoriesHelper {
                 Integer id = rs.getInt(1);
                 String name = rs.getString(2);
                 String description = rs.getString(3);
-                Integer count = rs.getInt(4);
-                categories.add(new CategoryWithCount(id, name, description, count));
+                Integer count = rs.getInt(4);//count(p.id) means the number of product belong to this category
+                categories.add(new CategoryWithCount(id, name, description, count)); // categoires is a list which contains numbers of categories
+                //SAVE IN TO LIST 
             }
+            //RETURN THE LIST
             return categories;
         } catch (Exception e) {
             System.err.println("Some error happened!<br/>" + e.getLocalizedMessage());

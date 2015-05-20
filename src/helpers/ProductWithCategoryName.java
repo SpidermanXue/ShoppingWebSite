@@ -18,6 +18,7 @@ public class ProductWithCategoryName {
 	private String SKU;
 	
 	private int price;
+	
 
 	/**
 	 * @param id
@@ -26,6 +27,7 @@ public class ProductWithCategoryName {
 	 * @param sKU
 	 * @param price
 	 */
+
 	public ProductWithCategoryName(int id, String categoryName, String name, String sKU, int price) {
 		this.id = id;
 		this.categoryName = categoryName;

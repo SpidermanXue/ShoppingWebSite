@@ -5,7 +5,7 @@ don't want to. -->
 <%@page
     import="java.util.List"
     import="helpers.*"%>
-<%=ProductsHelper.modifyProducts(request)%>
+<%=ProductsHelper.modifyProducts(request)%> <!-- call the helper to print the products -->
 <form action="products">
     <%
     	String search = request.getParameter("search");
@@ -29,7 +29,7 @@ don't want to. -->
 </form>
 <%
 	List<ProductWithCategoryName> products = ProductsHelper
-			.listProducts(request);
+			.listProducts(request); //List<string> this list is full of string
 	List<CategoryWithCount> categories = CategoriesHelper
 			.listCategories();
 %>
@@ -49,7 +49,7 @@ don't want to. -->
     </thead>
     <tbody>
         <%
-        	for (ProductWithCategoryName p : products) {
+        	for (ProductWithCategoryName p : products) { //print out the ELEMENT IN LIST
         %>
         <tr>
             <td><%=p.getName()%></td>
@@ -65,23 +65,27 @@ don't want to. -->
                         name="category"
                         id="category"
                         value="<%=category%>"
-                        style="display: none" /> <input
+                        style="display: none" /> 
+                        <input
                         type="text"
                         name="search"
                         id="search"
                         value="<%=search%>"
                         style="display:none;"
-                        size="40" /> <input
+                        size="40" /> 
+                        <input
                         type="text"
                         name="action"
                         id="action"
                         value="delete"
-                        style="display: none"> <input
+                        style="display: none"> 
+                        <input
                         type="text"
                         name="id"
                         id="id"
                         value="<%=p.getId()%>"
-                        style="display: none"> <input
+                        style="display: none"> 
+                        <input
                         type="submit"
                         value="Delete">
                 </form>

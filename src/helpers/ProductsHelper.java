@@ -13,6 +13,7 @@ public class ProductsHelper {
 
     public static List<ProductWithCategoryName> listProducts(HttpServletRequest request) {
         List<ProductWithCategoryName> productWithCategoryNames = new ArrayList<ProductWithCategoryName>();
+        //CRATE LIST
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -63,6 +64,7 @@ public class ProductsHelper {
                 String SKU = rs.getString(4);
                 Integer price = rs.getInt(5);
                 productWithCategoryNames.add(new ProductWithCategoryName(id, cname, name, SKU, price));
+                //SAVE ALL THE DATA FROM DB TO THE FUNCTION, TO BE USED OF GETTING FROM LIST
             }
             return productWithCategoryNames;
         } catch (Exception e) {

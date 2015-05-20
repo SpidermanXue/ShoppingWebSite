@@ -16,6 +16,7 @@
                         </div>
                         <div class="row">
                             <%
+                               //so the section in the signup-form doesnt really do anything, cuz it is quoted into signup page
                             	String name = null, role = null, state = null;
                             	Integer age = null;
                             	try {
