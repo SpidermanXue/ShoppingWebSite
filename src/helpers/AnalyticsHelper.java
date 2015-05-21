@@ -140,20 +140,46 @@ public class AnalyticsHelper {
 		}
 	}
 	
-	public int getUserDataForProduct(int uid, int pid) throws Exception{
-		
+//	public int getUserDataForProduct(int uid, int pid) throws Exception{
+//		
+//		try{
+//			String query = "SELECT sum from tempsale t WHERE t.uid = 1 and t.ppid = 1;";
+//			stmt = conn.createStatement();
+//			ResultSet rs = stmt.executeQuery(query);
+//			if(rs.next()){
+//			int res = rs.getInt(1);
+//			return res;
+//			}
+//			return 0;
+//		}catch (Exception e){
+//			System.err.println("Error happened getting product sale for user");
+//			return -1;
+//		}
+//	}
+	
+	public static List<List<Integer>> getUserProductDataList() throws Exception{
+		List<List<Integer>> res = new ArrayList<List<Integer>>(20);
 		try{
-			String query = "SELECT sum from tempsale t WHERE t.uid = 1 and t.ppid = 1;";
+			String query = "select ts.sum, tc.pid, tc.uid, tc.msum, tc.psum "
+					+ "from (SELECT * from top20, top10) tc "
+					+ "left join tempsale ts on (tc.uid = ts.uid and tc.pid = ts.ppid) "
+					+ "order by psum DESC, msum DESC";
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			if(rs.next()){
-			int res = rs.getInt(1);
-			return res;
+			int counter = 0;
+			List<Integer> row = new ArrayList<Integer>(10);
+			while(rs.next()){
+				if(counter==9){
+					counter = 0;
+					res.add(row);
+					row = new ArrayList<Integer>(10);
+				}
+					row.add(rs.getInt(1));
+					counter++;
 			}
-			return 0;
-		}catch (Exception e){
-			System.err.println("Error happened getting product sale for user");
-			return -1;
+			return res;
+		}catch(Exception e){
+			return res;
 		}
 	}
 	
