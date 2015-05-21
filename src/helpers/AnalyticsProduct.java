@@ -1,6 +1,6 @@
 package helpers;
 
-public class AnalyticsTitle {
+public class AnalyticsProduct {
 	public String pname;
 	public int sum;
 	public int pid;
