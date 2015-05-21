@@ -6,12 +6,17 @@ don't want to. -->
 <%@page
     import="java.util.List"
     import="helpers.*"%>
+    <%@ page import="javax.servlet.*"%>
 <%=CategoriesHelper.modifyCategories(request)%>
 <%
 	List<CategoryWithCount> categories = CategoriesHelper
 			.listCategories();
 	//List<AnalyticsList> list = AnalyticsHelper.getList("C1");
 	AnalyticsHelper ah = new AnalyticsHelper(2);
+	String selectedCol = request.getParameter("selectCol");
+	String selectedRow = request.getParameter("selectRow");
+	System.out.println("selected column is "+ selectedCol);
+	System.out.println("selected row is "+ selectedRow);
 	ah.getTitleList();
 	ah.getAnalyticDataList(65663);
 %>
