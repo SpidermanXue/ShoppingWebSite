@@ -12,25 +12,20 @@ don't want to. -->
 	List<CategoryWithCount> categories = CategoriesHelper
 			.listCategories();
 	//List<AnalyticsList> list = AnalyticsHelper.getList("C1");
-	AnalyticsHelper ah = new AnalyticsHelper(2);
-	String selectedCol = request.getParameter("selectCol");
+	AnalyticsHelper.buildAnalyticsHelper(2);
+/* 	String selectedCol = request.getParameter("selectCol");
 	String selectedRow = request.getParameter("selectRow");
 	System.out.println("selected column is "+ selectedCol);
-	System.out.println("selected row is "+ selectedRow);
-	ah.getTitleList();
-	ah.getAnalyticDataList(65663);
+	System.out.println("selected row is "+ selectedRow); */
+	AnalyticsHelper.getAnalyticsProductList();
 %>
-<div align="right">
-<select style="color:#00000F">
-	<option selected>ALL</option>
-  <%
-  	for (CategoryWithCount cwc : categories){
-  %>
-  <option><%=cwc.getName()%></option>  <!-- DROPDOWN TO GET THE NAME OF CATEGORY -->
-  <%
-  	}
-  %>
-</select>
+<div align="middle">
+<form action="">
+<input type="submit" name="next20" value="next20" style="float:left;">
+</form>
+<form action="">
+<input type="submit" name="next10" value="next10" style="float:right;">
+</form>
 </div>
 <table
     class="table table-striped"

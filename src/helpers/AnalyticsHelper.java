@@ -17,7 +17,7 @@ public class AnalyticsHelper {
 	//public static int cid = 0;
 	
 	
-	public AnalyticsHelper(int cid) throws Exception{
+	public static void buildAnalyticsHelper(int cid) throws Exception{
         try{
             try {
                 conn = HelperUtils.connect();
@@ -28,14 +28,14 @@ public class AnalyticsHelper {
             		+ "SELECT s.uid AS uid, s.pid AS ppid, SUM(quantity) as quan, ((SUM(quantity)) * price) "
             		+ "AS sum FROM SALES s GROUP BY s.pid, s.uid, s.price ORDER BY sum DESC, pid ASC";
             stmt = conn.createStatement();
-            stmt.executeQuery(buildTempTable);
+            stmt.executeUpdate(buildTempTable);
             
             buildTop20(0);
             buildTop10(0,0);
             
             System.out.println(tableReady);
         }catch (Exception e) {
-            System.err.println("Some error happened!<br/>" + e.getLocalizedMessage());
+            System.err.println("Some error happened! build<br/>" + e.getLocalizedMessage());
         }  
 	}
 	
@@ -46,9 +46,9 @@ public class AnalyticsHelper {
             		+ "SELECT t.uid AS uid, SUM(quan) AS qsum, SUM(sum) AS msum "
             		+ "FROM tempsale t GROUP BY t.uid ORDER BY msum DESC LIMIT '"+end+"' OFFSET '"+uOffset+"'";            
             stmt = conn.createStatement();
-            stmt.executeQuery(buildTop20);
+            stmt.executeUpdate(buildTop20);
 		}catch(Exception e){
-            System.err.println("Some error happened!<br/>" + e.getLocalizedMessage());
+            System.err.println("Some error happened! build20<br/>" + e.getLocalizedMessage());
 		}
 	}
 	
@@ -68,9 +68,9 @@ public class AnalyticsHelper {
 	            		+ "ORDER BY psum DESC LIMIT '"+pOffset+"' OFFSET '"+pOffset+"';";
 			}
             stmt = conn.createStatement();
-            stmt.executeQuery(buildTop10);
+            stmt.executeUpdate(buildTop10);
 		}catch(Exception e){
-            System.err.println("Some error happened!<br/>" + e.getLocalizedMessage());
+            System.err.println("Some error happened! build10<br/>" + e.getLocalizedMessage());
 		}
 	}
 	
@@ -97,7 +97,7 @@ public class AnalyticsHelper {
 			if(tableReady){
 				throw new Exception("fuckedup");
 			}
-			String query = "select * from top10";
+			String query = "SELECT * FROM top10";
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			
@@ -111,7 +111,7 @@ public class AnalyticsHelper {
 			}
 			return res;
 		}catch(Exception e){
-			System.err.println("Some error happened when getting the title.<br/>" + e.getLocalizedMessage());
+			System.err.println("Some error happened when getting the title. getProduct 10<br/>" + e.getLocalizedMessage());
 			return new ArrayList<AnalyticsProduct>();
 		}
 	}
