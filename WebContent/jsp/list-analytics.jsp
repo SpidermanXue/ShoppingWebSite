@@ -44,19 +44,8 @@ don't want to. -->
 		}
 	}
 	*/
-	AnalyticsHelper.buttonClicked = false;
-	System.out.println(AnalyticsHelper.buttonClicked);
 	System.out.println("action is: " + action);
-	if (action!=null && action.equals("next10")){
 	
-		//response.sendRedirect("Analytics");
-	}
-	
-	
-	if (action!=null && action.equals("next20")){
-		
-		//response.sendRedirect("Analytics");
-	}
 	
 	
 	//AnalyticsHelper.getAnalyticsProductList();
@@ -64,10 +53,6 @@ don't want to. -->
 <div align="middle">
 <form action="analytics">
 <input type="hidden" name="action" value="next10"/>
-<% 
-		AnalyticsHelper.uOffset+=20;
-		AnalyticsHelper.buttonClicked = true;
-		%>
 <input type="submit" name="next10" value="next10" style="float:right;">
 </form>
 </div>
@@ -125,10 +110,6 @@ table, td, th {
 	<form action="analytics" >
 	  <input type="hidden" name="action" value="next20"/>
 	<input type="submit" name="next20" value="next20" style="float:left;">	
-	<%
-	AnalyticsHelper.uOffset+=20;
-	AnalyticsHelper.buttonClicked = true;
-	%>
 	<br>
 	</form>
 <center>

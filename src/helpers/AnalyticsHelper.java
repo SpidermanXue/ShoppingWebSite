@@ -15,7 +15,7 @@ public class AnalyticsHelper {
 	public static int uOffset = 0;
 	public static int pOffset = 0;
 	//public static int cid = 0;
-	public static boolean buttonClicked = false;
+	//public static boolean buttonClicked = false;
 	
 	public static void buildAnalyticsHelper(int cid, boolean isTopK, boolean isStates) throws Exception{
         try{

@@ -4,7 +4,16 @@
     import="helpers.*"%>
    
     <% 
-    if (!AnalyticsHelper.buttonClicked)
+    String action = request.getParameter("action");
+    if (action!=null && action.equals("next10")){  	
+    	AnalyticsHelper.pOffset+=10;
+	}
+	
+	
+	if (action!=null && action.equals("next20")){
+		AnalyticsHelper.uOffset+=20;
+	}
+    if (AnalyticsHelper.uOffset <20 && AnalyticsHelper.pOffset <10)
     {	
     %>	
 <div class="panel panel-default">
