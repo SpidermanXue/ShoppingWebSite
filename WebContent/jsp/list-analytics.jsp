@@ -5,20 +5,26 @@ boxes that appear when clicking on a button. You do not have to use them if you
 don't want to. -->
 <%@page
     import="java.util.List"
-    import="helpers.*"%>
-    <%@ page import="javax.servlet.*"%>
+    import="helpers.*"
+    import = "java.lang.*"
+    import="javax.servlet.*"%>
 <%=CategoriesHelper.modifyCategories(request)%>
 <%
 	List<CategoryWithCount> categories = CategoriesHelper
 			.listCategories();
 	//List<AnalyticsList> list = AnalyticsHelper.getList("C1");
 	//AnalyticsHelper.buildAnalyticsHelper(2);
+	//AnalyticsHelper.getAnalyticsProductList();
 	String action = request.getParameter("action");	
  	String customer_or_states = request.getParameter("selectCol");
 	String topk_or_alphabetical = request.getParameter("selectRow");
 	//String cidString = request.getParameter("cid");
-	//int cid = Integer.parseInt(cidString);
-	//System.out.println(request.getParameter("cid"));
+	int cid = 0;
+	if (request.getParameter("cid")!=null){
+		cid = Integer.parseInt(request.getParameter("cid"));
+	}
+	
+	//System.out.println(cid);
 	
 	/*
 	// check actions chosen
