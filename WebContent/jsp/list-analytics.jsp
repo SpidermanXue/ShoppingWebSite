@@ -43,6 +43,8 @@ don't want to. -->
 		}
 	}
 	*/
+	//AnalyticsHelper.buttonClicked = false;
+	System.out.println(AnalyticsHelper.buttonClicked);
 	System.out.println("action is: " + action);
 	if (action!=null && action.equals("next10")){
 		AnalyticsHelper.pOffset+=10;
