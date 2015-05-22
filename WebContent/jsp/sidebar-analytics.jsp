@@ -2,6 +2,11 @@
  <%@page
     import="java.util.List"
     import="helpers.*"%>
+   
+    <% 
+    if (AnalyticsHelper.buttonClicked == false)
+    {	
+    %>	
 <div class="panel panel-default">
 	<div class="panel-body">
 		<div class="bottom-nav">
@@ -19,7 +24,7 @@
 					}
 				%>
 			</select>
-			<form action="/jsp/list-analytics.jsp" method="post" id="formAnalytics">
+			<form action="jsp/list-analytics.jsp" method="post" id="formAnalytics">
 					<select name="selectCol" form="formAnalytics">
 						<option selected>Customers</option>
 						<option>States</option>
@@ -30,7 +35,9 @@
 					</select>
 					<input type="submit">
 						</form> 
-			
+	<%
+    }
+	%>	
 		</div>
 	</div>
 </div>

@@ -13,14 +13,42 @@ don't want to. -->
 			.listCategories();
 	//List<AnalyticsList> list = AnalyticsHelper.getList("C1");
 	//AnalyticsHelper.buildAnalyticsHelper(2);
-/* 	String selectedCol = request.getParameter("selectCol");
-	String selectedRow = request.getParameter("selectRow");
-	System.out.println("selected column is "+ selectedCol);
-	System.out.println("selected row is "+ selectedRow); */
+	String action = request.getParameter("action");	
+ 	String customer_or_states = request.getParameter("selectCol");
+	String topk_or_alphabetical = request.getParameter("selectRow");
+	
+	/*
+	// check actions chosen
+	if (action.equals("run")){	
+	
+		// build states table if states filtering option is chosen
+		if (customer_or_states.equals("States")){
+		
+		
+		}
+	
+		// check for top k or alphabetical option 
+		if (topk_or_alphabetical.equals("")){
+		
+		
+		}
+	}
+	
+	if (action.equals("next10")){
+		AnalyticsHelper.pOffset+=10;
+		AnalyticsHelper.buttonClicked = true;
+	}
+	
+	if (action.equals("next20")){
+		AnalyticsHelper.uOffset+=20;
+		AnalyticsHelper.buttonClicked = true;
+	}
+	*/
+	
 	//AnalyticsHelper.getAnalyticsProductList();
 %>
 <div align="middle">
-<form action="">
+<form action="next10">
 <input type="submit" name="next10" value="next10" style="float:right;">
 </form>
 </div>
@@ -75,12 +103,12 @@ table, td, th {
 </table>
 
 
-	<form action="" >
+	<form action="next20" >
 	<input type="submit" name="next20" value="next20" style="float:left;">	
 	<br>
 	</form>
 <center>
-	<form action="">
+	<form action="run">
 	<input type="submit" name="Run" value="run" style="float:middle;">	
 	</form>
   </center>  
