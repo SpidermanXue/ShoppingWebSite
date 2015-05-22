@@ -12,6 +12,7 @@ don't want to. -->
 <%
 	List<CategoryWithCount> categories = CategoriesHelper
 			.listCategories();
+
 	//List<AnalyticsList> list = AnalyticsHelper.getList("C1");
 	//AnalyticsHelper.buildAnalyticsHelper(2);
 	//AnalyticsHelper.getAnalyticsProductList();
