@@ -12,13 +12,13 @@
 		<div class="bottom-nav">
 			<h4>Options</h4>
 			<!-- Put your part 2 code here -->
-			<form action="jsp/list-analytics.jsp" method="post" id="formAnalytics">
-			<select name = "cid" "style="color: #00000F" >
+			<form action="analytics" method="post" id="formAnalytics">
+			<select name = "cid" style="color: #00000F" >
 				<option value = "<%=0 %>" selected>ALL</option>
 				<%
 					List<CategoryWithCount> categories = CategoriesHelper.listCategories();
 					for (CategoryWithCount cwc : categories) {
-						System.out.println("id is " + cwc.getId());
+						//System.out.println("id is " + cwc.getId());
 				%>
 				<option value = "<%=(int)cwc.getId() %>" ><%=cwc.getName()%></option>
 				<!-- DROPDOWN TO GET THE NAME OF CATEGORY -->

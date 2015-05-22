@@ -52,7 +52,7 @@ public class AnalyticsHelper {
 				}else{
 					if(isState){
 						//states, topK, without cid
-						buildTop20 = "create temporary table top20s as "
+						buildTop20 = "create temporary table top20 as "
 								+ "select stm.stid as stid, stm.stname as stname, SUM(COALESCE(sm.money,0)) as stsum "
 								+ "FROM (select s.id as stid, s.name as stname from users u, states s where s.id = u.id "
 								+ "order by stname asc LIMIT '"+end+"' OFFSET '"+uOffset+"') stm "
@@ -71,18 +71,23 @@ public class AnalyticsHelper {
 				}
 			}else{
 				if(isTopK){
+					if(isState){
 					//topk with cid
 					buildTop20="CREATE TEMPORARY TABLE top20 AS "
 							+ "SELECT u.id as uid, COALESCE(ss.uqsum,0) AS uqsum, COALESCE(ss.msum,0) AS msum "
 							+ "from (users u left outer join (SELECT s.uid AS uid, SUM(s.quantity) AS uqsum, SUM(s.price*s.quantity) AS msum "
 							+ "FROM sales s, products p WHERE p.id=s.id AND p.cid = '"+cid+"' GROUP BY s.uid) ss on u.id = ss.uid) "
 							+ "ORDER BY msum DESC, uqsum DESC LIMIT '"+end+"' OFFSET '"+uOffset+"'";
+					}else{
+						//topK with cid, state
+						
+					}
 				}else{
 					if(isState){
 						//states, alphabetical, with cid
 						
 					}else{
-					//Alphabetical
+					//Alphabetical user, topK, with cid
 					buildTop20 = "create temporary table top20 as "
 							+ "select um.id as uid, um.name as uname, SUM(COALESCE(sm.money,0)) as usum "
 							+ "FROM (select id, name from users order by name asc limit '"+end+"' offset '"+uOffset+"') um "

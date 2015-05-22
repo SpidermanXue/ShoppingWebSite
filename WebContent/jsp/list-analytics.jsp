@@ -5,20 +5,27 @@ boxes that appear when clicking on a button. You do not have to use them if you
 don't want to. -->
 <%@page
     import="java.util.List"
-    import="helpers.*"%>
-    <%@ page import="javax.servlet.*"%>
+    import="helpers.*"
+    import = "java.lang.*"
+    import="javax.servlet.*"%>
 <%=CategoriesHelper.modifyCategories(request)%>
 <%
 	List<CategoryWithCount> categories = CategoriesHelper
 			.listCategories();
-	AnalyticsHelper.buildAnalyticsHelper(1, true, false);
-	AnalyticsHelper.getAnalyticsProductList();
+
+	//List<AnalyticsList> list = AnalyticsHelper.getList("C1");
+	//AnalyticsHelper.buildAnalyticsHelper(2);
+	//AnalyticsHelper.getAnalyticsProductList();
 	String action = request.getParameter("action");	
  	String customer_or_states = request.getParameter("selectCol");
 	String topk_or_alphabetical = request.getParameter("selectRow");
 	//String cidString = request.getParameter("cid");
-	//int cid = Integer.parseInt(cidString);
-	//System.out.println(request.getParameter("cid"));
+	int cid = 0;
+	if (request.getParameter("cid")!=null){
+		cid = Integer.parseInt(request.getParameter("cid"));
+	}
+	
+	//System.out.println(customer_or_states);
 	
 	/*
 	// check actions chosen
@@ -36,22 +43,27 @@ don't want to. -->
 		
 		}
 	}
-	
-	if (action.equals("next10")){
+	*/
+	System.out.println("action is: " + action);
+	if (action!=null && action.equals("next10")){
 		AnalyticsHelper.pOffset+=10;
 		AnalyticsHelper.buttonClicked = true;
+		//response.sendRedirect("Analytics");
 	}
 	
-	if (action.equals("next20")){
+	
+	if (action!=null && action.equals("next20")){
 		AnalyticsHelper.uOffset+=20;
 		AnalyticsHelper.buttonClicked = true;
+		//response.sendRedirect("Analytics");
 	}
-	*/
+	
 	
 	//AnalyticsHelper.getAnalyticsProductList();
 %>
 <div align="middle">
-<form action="next10">
+<form action="analytics">
+<input type="hidden" name="action" value="next10"/>
 <input type="submit" name="next10" value="next10" style="float:right;">
 </form>
 </div>
@@ -106,12 +118,14 @@ table, td, th {
 </table>
 
 
-	<form action="next20" >
+	<form action="analytics" >
+	  <input type="hidden" name="action" value="next20"/>
 	<input type="submit" name="next20" value="next20" style="float:left;">	
 	<br>
 	</form>
 <center>
-	<form action="run">
+	<form action="analytics">
+	<input type="hidden" name="action" value="run"/>
 	<input type="submit" name="Run" value="run" style="float:middle;">	
 	</form>
   </center>  
