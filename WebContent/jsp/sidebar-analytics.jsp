@@ -4,7 +4,7 @@
     import="helpers.*"%>
    
     <% 
-    if (AnalyticsHelper.buttonClicked == false)
+    if (!AnalyticsHelper.buttonClicked)
     {	
     %>	
 <div class="panel panel-default">
@@ -12,19 +12,21 @@
 		<div class="bottom-nav">
 			<h4>Options</h4>
 			<!-- Put your part 2 code here -->
-			<select style="color: #00000F">
-				<option selected>ALL</option>
+			<form action="jsp/list-analytics.jsp" method="post" id="formAnalytics">
+			<select name = "cid" "style="color: #00000F" >
+				<option value = "<%=0 %>" selected>ALL</option>
 				<%
 					List<CategoryWithCount> categories = CategoriesHelper.listCategories();
 					for (CategoryWithCount cwc : categories) {
+						System.out.println("id is " + cwc.getId());
 				%>
-				<option><%=cwc.getName()%></option>
+				<option value = "<%=(int)cwc.getId() %>" ><%=cwc.getName()%></option>
 				<!-- DROPDOWN TO GET THE NAME OF CATEGORY -->
 				<%
 					}
 				%>
-			</select>
-			<form action="jsp/list-analytics.jsp" method="post" id="formAnalytics">
+				</select>		
+			
 					<select name="selectCol" form="formAnalytics">
 						<option selected>Customers</option>
 						<option>States</option>

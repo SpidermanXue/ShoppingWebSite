@@ -16,6 +16,9 @@ don't want to. -->
 	String action = request.getParameter("action");	
  	String customer_or_states = request.getParameter("selectCol");
 	String topk_or_alphabetical = request.getParameter("selectRow");
+	//String cidString = request.getParameter("cid");
+	//int cid = Integer.parseInt(cidString);
+	//System.out.println(request.getParameter("cid"));
 	
 	/*
 	// check actions chosen
