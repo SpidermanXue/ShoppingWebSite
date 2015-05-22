@@ -12,12 +12,12 @@ don't want to. -->
 	List<CategoryWithCount> categories = CategoriesHelper
 			.listCategories();
 	//List<AnalyticsList> list = AnalyticsHelper.getList("C1");
-	AnalyticsHelper.buildAnalyticsHelper(2);
+	//AnalyticsHelper.buildAnalyticsHelper(2);
 /* 	String selectedCol = request.getParameter("selectCol");
 	String selectedRow = request.getParameter("selectRow");
 	System.out.println("selected column is "+ selectedCol);
 	System.out.println("selected row is "+ selectedRow); */
-	AnalyticsHelper.getAnalyticsProductList();
+	//AnalyticsHelper.getAnalyticsProductList();
 %>
 <div align="middle">
 <form action="">
@@ -62,7 +62,7 @@ table, td, th {
     for(int i = 0; i < 20; i++){
     %>
     <tr align="center">
-    <td> user<%=i%><br>($ &nbsp &nbsp)</td> 
+    <td><B>user<%=i%><br>($ &nbsp &nbsp)</td> 
     <%
     for(int m = 0; m < 10; m++){
     %>
@@ -73,69 +73,15 @@ table, td, th {
     %>
     </tbody>
 </table>
-<div class="panel panel-default">
-    <div class="panel-body">
 
-	<form action="">
+
+	<form action="" >
 	<input type="submit" name="next20" value="next20" style="float:left;">	
+	<br>
 	</form>
-        <button> RUN</button>
-        <div
-            class="modal fade"
-            id="newCategory"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4
-                            class="modal-title"
-                            id="myModalLabel">New Category</h4>
-                    </div>
-                    <div class="modal-body">
+<center>
+	<form action="">
+	<input type="submit" name="Run" value="run" style="float:middle;">	
+	</form>
+  </center>  
 
-
-                        <!-- Insert New Category Form -->
-                        <form
-                            action="categories"
-                            method="post">
-                            <div>
-                                Name : <input
-                                    type="text"
-                                    name="name"
-                                    id="name"
-                                    value=""
-                                    size="40">
-                            </div>
-                            <div>
-                                Description :
-                                <textarea
-                                    name="description"
-                                    id="description"
-                                    cols=40
-                                    rows=6></textarea>
-                            </div>
-                            <input
-                                type="text"
-                                name="action"
-                                id="action"
-                                value="insert"
-                                style="display: none"> <input
-                                type="submit"
-                                value="Insert">
-                        </form>
-
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
