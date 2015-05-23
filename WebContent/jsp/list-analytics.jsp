@@ -45,18 +45,7 @@ don't want to. -->
 	}
 	*/
 	System.out.println("action is: " + action);
-	if (action!=null && action.equals("next10")){
-		AnalyticsHelper.pOffset+=10;
-		AnalyticsHelper.buttonClicked = true;
-		//response.sendRedirect("Analytics");
-	}
 	
-	
-	if (action!=null && action.equals("next20")){
-		AnalyticsHelper.uOffset+=20;
-		AnalyticsHelper.buttonClicked = true;
-		//response.sendRedirect("Analytics");
-	}
 	
 	
 	//AnalyticsHelper.getAnalyticsProductList();
