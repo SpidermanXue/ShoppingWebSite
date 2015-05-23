@@ -88,18 +88,17 @@ table, td, th {
     <tbody>
     <%
     for(int i = 0; i < users.size(); i++){
-    	out.println("shabi" + users.size());
     	AnalyticsUser user = users.get(i);
-    	List<Integer> rowSums = dataSet.get(i);
+    	//List<Integer> rowSums = dataSet.get(i);
     %>
     <tr align="center">
     <td><B><%=user.uname %>><br>($<%=user.sum %>)</B></td> 
     <%
-    for(Integer sum : rowSums){
+    //for(Integer sum : rowSums){
     %>
-    <td>$<%=sum%></td>
+    <td>$<%=i%></td>
     <%
-    }
+    //}
     }
     %>
     </tbody>
