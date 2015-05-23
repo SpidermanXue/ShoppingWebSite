@@ -73,9 +73,9 @@ table, td, th {
 		}
 		*/
 %>
-<table  width="100%" border="0" cellspacing="0" cellpadding="0"
+<table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0"
     class="table table-striped"
-    align="center">
+    align="center" style="margin-top:4px;margin-left:4px;margin-right:4px;margin-bottom:4px; overflow: scroll;">
     <thead>
         <!-- 
         The <thead> tag is used to group header content in an HTML table.
@@ -98,6 +98,7 @@ table, td, th {
     <tbody>
     <%
     for(int i = 0; i < users.size(); i++){
+    	out.println("shabi" + users.size());
     	AnalyticsUser user = users.get(i);
     	List<Integer> rowSums = dataSet.get(i);
     %>

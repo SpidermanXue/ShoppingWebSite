@@ -204,6 +204,7 @@ public class AnalyticsHelper {
 				res.add(au);
 				System.out.println(au.uname + "\n");
 			}
+			System.out.println("size of the user list: " + res.size());
 			return res;
 		}catch(Exception e){
 			System.err.println("Some error happened when getting the title.<br/>" + e.getLocalizedMessage());

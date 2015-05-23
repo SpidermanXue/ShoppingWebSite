@@ -44,7 +44,9 @@
                                 <%
                                     if (nameNotNull && roleIsOwner) {
                                 %>
+                                jeremy
                                 <jsp:include page="/jsp/list-analytics.jsp" />
+                                wo cao ni ma 
                                 <%
                                     } else {
                                 %>
