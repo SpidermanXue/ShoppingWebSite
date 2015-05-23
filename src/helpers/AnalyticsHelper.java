@@ -123,7 +123,7 @@ public class AnalyticsHelper {
 	
 	public static void buildTop10(int pOffset, int cid, boolean isTopK) throws Exception{
 		int end = pOffset + 10;
-		String buildTop10 = "drop talbe if exists top10";
+		String buildTop10 = "drop table if exists top10;";
 		try{
 			if(cid==0){
 				if(isTopK){
@@ -187,8 +187,8 @@ public class AnalyticsHelper {
 		}
 	}
 	
-	public static List<AanalyticsUser> getAnalyticsUserList() throws Exception{
-		List<AanalyticsUser> res = new ArrayList<AanalyticsUser>();
+	public static List<AnalyticsUser> getAnalyticsUserList() throws Exception{
+		List<AnalyticsUser> res = new ArrayList<AnalyticsUser>();
 		Statement stmt = null;
 		try{
 
@@ -197,7 +197,7 @@ public class AnalyticsHelper {
 			ResultSet rs = stmt.executeQuery(query);
 			
 			while(rs.next()){
-				AanalyticsUser au = new AanalyticsUser();
+				AnalyticsUser au = new AnalyticsUser();
 				au.uid = rs.getInt(1);
 				au.uname = rs.getString(2);
 				au.sum = rs.getInt(3);
@@ -207,7 +207,7 @@ public class AnalyticsHelper {
 			return res;
 		}catch(Exception e){
 			System.err.println("Some error happened when getting the title.<br/>" + e.getLocalizedMessage());
-			return new ArrayList<AanalyticsUser>();
+			return new ArrayList<AnalyticsUser>();
 		}
 	}
 	
@@ -226,7 +226,7 @@ public class AnalyticsHelper {
 				if(counter==colMax){
 					counter = 0;
 					res.add(row);
-					row = new ArrayList<Integer>(10);
+					row = new ArrayList<Integer>(colMax);
 				}
 					row.add(rs.getInt(1));
 					counter++;

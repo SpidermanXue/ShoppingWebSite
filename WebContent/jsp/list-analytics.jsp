@@ -4,7 +4,7 @@ this scare you, this is just some pretty presentation. They allow you to create
 boxes that appear when clicking on a button. You do not have to use them if you
 don't want to. -->
 <%@page
-    import="java.util.List"
+    import="java.util.*"
     import="helpers.*"
     import = "java.lang.*"
     import="javax.servlet.*"%>
@@ -12,10 +12,6 @@ don't want to. -->
 <%
 	List<CategoryWithCount> categories = CategoriesHelper
 			.listCategories();
-
-	AnalyticsHelper.buildAnalyticsHelper(0, true, false);
-	AnalyticsHelper.getAnalyticsProductList();
-	AnalyticsHelper.getAnalyticsUserList();
 	
 	String action = request.getParameter("action");	
  	String customer_or_states = request.getParameter("selectCol");
@@ -68,7 +64,14 @@ table, td, th {
     border-color: #0000ff;
 }
 </style>
-
+<%
+	if(action!=null && action.equals("run")){
+		AnalyticsHelper.buildAnalyticsHelper(0, true, false);
+		List<AnalyticsProduct> products = AnalyticsHelper.getAnalyticsProductList();
+		System.out.println(products.isEmpty());
+		List<AnalyticsUser> users = AnalyticsHelper.getAnalyticsUserList();
+		List<List<Integer>> dataSet = AnalyticsHelper.getUserProductDataList(users.size(), products.size()); 
+%>
 <table
     class="table table-striped"
     align="center">
@@ -82,9 +85,10 @@ table, td, th {
         <tr align="center">
         	<th></th>
         	<%
-        	for(int i = 0; i < 10; i++){
+        	
+        	for(AnalyticsProduct product : products){
         	%>
-            <th><B>product<%=i%> <br>($ &nbsp &nbsp)</br></B></th>
+            <th><B><%=product.pname%> <br>($<%= product.sum%>)</br></B></th>
             <%
         	}
             %>
@@ -92,21 +96,25 @@ table, td, th {
     </thead>
     <tbody>
     <%
-    for(int i = 0; i < 20; i++){
+    for(int i = 0; i < users.size(); i++){
+    	AnalyticsUser user = users.get(i);
+    	List<Integer> rowSums = dataSet.get(i);
     %>
     <tr align="center">
-    <td><B>user<%=i%><br>($ &nbsp &nbsp)</td> 
+    <td><B><%=user.uname %>><br>($<%=user.sum %>)</td> 
     <%
-    for(int m = 0; m < 10; m++){
+    for(Integer sum : rowSums){
     %>
-    <td>$0</td>
+    <td>$<%=sum%></td>
     <%
     }
     }
     %>
     </tbody>
 </table>
-
+<%
+	}
+%>
 
 	<form action="analytics" >
 	  <input type="hidden" name="action" value="next20"/>
