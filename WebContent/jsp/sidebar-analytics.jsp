@@ -22,7 +22,7 @@
 			<h4>Options</h4>
 			<!-- Put your part 2 code here -->
 			<form action="analytics" method="post" id="formAnalytics">
-			<select name = "cid" style="color: #00000F" >
+			<select name = "cid" style="color: #00000F" form="formAnalytics">
 				<option value = "<%=0 %>" selected>ALL</option>
 				<%
 					List<CategoryWithCount> categories = CategoriesHelper.listCategories();
@@ -44,8 +44,9 @@
 						<option selected>Top K</option>
 						<option>Alphabetical</option>
 					</select>
-					<input type="submit">
-						</form> 
+					<input type="hidden" name="action" value="run" form="formAnalytics"/>
+					<input type="submit" name = "Run" value = "Run" form="formAnalytics">
+			</form> 
 	<%
     }
 	%>	
