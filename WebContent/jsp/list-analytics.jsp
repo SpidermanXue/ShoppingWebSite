@@ -8,6 +8,9 @@ don't want to. -->
     import="helpers.*"
     import = "java.lang.*"
     import="javax.servlet.*"%>
+<%
+	long startTime = System.currentTimeMillis();
+%>
 <%=CategoriesHelper.modifyCategories(request)%>
 <%
 	List<CategoryWithCount> categories = CategoriesHelper
@@ -106,8 +109,11 @@ table, td, th {
 <%
 	}
 %>
-
-	
+<%
+	long endTime = System.currentTimeMillis();
+	long runTime = endTime - startTime;
+%>
+Running Time:<%=runTime%> ms.
   <!-- <center>
 	<form action="analytics" id="formAnalytics">
 	<input type="hidden" name="action" value="run"/>
