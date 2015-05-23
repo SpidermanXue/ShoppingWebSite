@@ -46,13 +46,13 @@ public class AnalyticsHelper {
 						buildTop20 += "create temporary table top20 as "
 								+ "SELECT stt.stid, stt.stname, SUM(s.quantity*s.price) as msum "
 								+ "from (select st.id as stid, st.name as stname from states st "
-								+ "order by stname ASC LIMIT 20) as stt, users u, sales s "
+								+ "order by stname ASC LIMIT '"+end+"' OFFSET '"+uOffset+"') as stt, users u, sales s "
 								+ "where u.id=s.uid and u.state=stt.stid group by stt.stid, stt.stname order by states_sales DESC";
 					}else{
 						//build top20 users table with selection of topK
 						buildTop20 += "CREATE TEMPORARY TABLE top20 AS "
-							+ "SELECT t.uid AS uid, SUM(quan) AS qsum, SUM(sum) AS msum "
-							+ "FROM tempsale t GROUP BY t.uid ORDER BY msum DESC LIMIT '"+end+"' OFFSET '"+uOffset+"'";
+								+ "SELECT s.uid AS uid, SUM(s.quantity) AS uqsum, SUM(price*quantity) AS msum "
+								+ "FROM sales s GROUP BY s.uid ORDER BY msum DESC, uqsum DESC LIMIT '"+end+"' OFFSET '"+uOffset+"'";
 					}
 				}else{
 					if(isState){
@@ -88,9 +88,9 @@ public class AnalyticsHelper {
 						buildTop20 += "create temporary table top20 as "
 								+ "SELECT stt.stid, stt.stname, SUM(s.quantity*s.price) as msum "
 								+ "from (select st.id as stid, st.name as stname from states st "
-								+ "order by stname ASC LIMIT 20) as stt, users u, sales s "
+								+ "order by stname ASC LIMIT '"+end+"' OFFSET '"+uOffset+"') as stt, users u, sales s "
 								+ "where s.pid in ( select  id from products p "
-								+ "where p.cid = 107) and u.id=s.uid and u.state=stt.stid "
+								+ "where p.cid = '"+cid+"') and u.id=s.uid and u.state=stt.stid "
 								+ "group by stt.stid, stt.stname order by states_sales DESC";
 					}
 				}else{
@@ -99,16 +99,18 @@ public class AnalyticsHelper {
 						buildTop20 += "create temporary table top20 as "
 								+ "SELECT stt.stid, stt.stname, SUM(s.quantity*s.price) "
 								+ "from (select st.id as stid, st.name as stname from states st "
-								+ "order by stname ASC LIMIT 20) as stt, users u, sales s "
-								+ "where s.pid in ( select  id from products p where p.cid = 107) and u.id=s.uid and u.state=stt.stid "
+								+ "order by stname ASC LIMIT '"+end+"' OFFSET '"+uOffset+"') as stt, users u, sales s "
+								+ "where s.pid in ( select  id from products p where p.cid = '"+cid+"') and u.id=s.uid and u.state=stt.stid "
 								+ "group by stt.stid, stt.stname order by stt.stname";
 					}else{
 					//Alphabetical user, topK, with cid
 					buildTop20 += "create temporary table top20 as "
 							+ "select um.id as uid, um.name as uname, SUM(COALESCE(sm.money,0)) as usum "
 							+ "FROM (select id, name from users order by name asc limit '"+end+"' offset '"+uOffset+"') um "
-							+ "left outer join (select uid, (sum(quantity) * price) as money "
-							+ "FROM sales group by uid, pid, price) sm on sm.uid = um.id Group by um.id, um.name ORDER BY uname asc";
+							+ "left outer join (select uid, (sum(quantity) * price) as money FROM sales s "
+							+ "where s.pid in ( select  id from products p where p.cid = '"+cid+"') group by uid, pid, price) sm "
+							+ "on sm.uid = um.id Group by um.id, um.name ORDER BY uname asc";
+
 					}
 				}
 			}
@@ -128,7 +130,7 @@ public class AnalyticsHelper {
 					//topk, no cid
 					buildTop10 += "CREATE TEMPORARY TABLE top10 AS "
 							+ "SELECT s.pid AS pid, SUM(s.quantity) AS pqsum, SUM(s.quantity * s.price) AS psum "
-							+ "FROM sales s GROUP BY s.pid ORDER BY psum DESC, pqsum DESC LIMIT 10 OFFSET 0";	
+							+ "FROM sales s GROUP BY s.pid ORDER BY psum DESC, pqsum DESC LIMIT '"+end+"' OFFSET '"+pOffset+"'";	
 				}else{
 					//alphabetical, no cid
 					buildTop10 += "create temporary table top10 as "
@@ -147,7 +149,7 @@ public class AnalyticsHelper {
 				}else{
 					//alphabetical, no cid
 					buildTop10 += "create temporary table top10 as select pm.id as pid, pm.name as pname, COALESCE(sm.money,0) as psum "
-							+ "FROM (select id, name from products order by name asc limit 10 offset 0) pm "
+							+ "FROM (select id, name from products order by name asc limit '"+end+"' offset '"+pOffset+"') pm "
 							+ "left outer join (select pid, sum(quantity) * price as money from sales group by pid, price) sm "
 							+ "on sm.pid = pm.id order by pname ASC";
 				}
@@ -156,22 +158,6 @@ public class AnalyticsHelper {
             stmt.executeUpdate(buildTop10);
 		}catch(Exception e){
             System.err.println("Some error happened! build10<br/>" + e.getLocalizedMessage());
-		}
-	}
-	
-	public static void buildStates(int uOffset, int cid) throws Exception{
-		int end = pOffset + 10;
-		String buildStates = "";
-		try{
-			stmt = conn.createStatement();
-			stmt.executeQuery(buildStates);
-		}catch(Exception e){
-			
-		}
-	}
-	public static void changeAnalyticsTable(int newpOffset, int newuOffset, int pid, boolean isTopK, boolean isState){
-		if (pOffset != newpOffset){
-			
 		}
 	}
 	

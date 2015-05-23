@@ -13,9 +13,10 @@ don't want to. -->
 	List<CategoryWithCount> categories = CategoriesHelper
 			.listCategories();
 
-	//List<AnalyticsList> list = AnalyticsHelper.getList("C1");
-	//AnalyticsHelper.buildAnalyticsHelper(2);
-	//AnalyticsHelper.getAnalyticsProductList();
+	AnalyticsHelper.buildAnalyticsHelper(0, true, false);
+	AnalyticsHelper.getAnalyticsProductList();
+	AnalyticsHelper.getAnalyticsUserList();
+	
 	String action = request.getParameter("action");	
  	String customer_or_states = request.getParameter("selectCol");
 	String topk_or_alphabetical = request.getParameter("selectRow");
