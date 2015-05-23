@@ -16,10 +16,6 @@ don't want to. -->
 	String action = request.getParameter("action");	
 	String customer_or_states = request.getParameter("selectCol");
 	String topk_or_alphabetical = request.getParameter("selectRow");
-	int cid = 0;
-	if (request.getParameter("cid")!=null){
-		cid = Integer.parseInt(request.getParameter("cid"));
-	}
 
 %>
 
@@ -53,7 +49,11 @@ table, td, th {
 </style>
 <%	
 	//System.out.println(customer_or_states);
-	System.out.println("action is: " + action);
+	int cid = 0;
+	if (request.getParameter("cid")!=null){
+		cid = Integer.parseInt(request.getParameter("cid"));
+	}
+	//System.out.println("action is: " + action);
 	if(action!=null && action.equals("run")){
 		AnalyticsHelper.buildAnalyticsHelper(0, true, false);
 		List<AnalyticsProduct> products = AnalyticsHelper.getAnalyticsProductList();

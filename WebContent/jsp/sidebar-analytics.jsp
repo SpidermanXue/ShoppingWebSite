@@ -12,6 +12,7 @@
 	
 	if (action!=null && action.equals("next20")){
 		AnalyticsHelper.uOffset+=20;
+		System.out.println(AnalyticsHelper.uOffset);
 	}
     if (AnalyticsHelper.uOffset <20 && AnalyticsHelper.pOffset <10)
     {	
@@ -22,7 +23,7 @@
 			<h4>Options</h4>
 			<!-- Put your part 2 code here -->
 			<form action="analytics" method="post" id="formAnalytics">
-			<select name = "cid" style="color: #00000F" form="formAnalytics">
+				<select name = "cid" style="color: #00000F" form="formAnalytics">
 				<option value = "<%=0 %>" selected>ALL</option>
 				<%
 					List<CategoryWithCount> categories = CategoriesHelper.listCategories();
@@ -36,16 +37,16 @@
 				%>
 				</select>		
 			
-					<select name="selectCol" form="formAnalytics">
-						<option selected>Customers</option>
-						<option>States</option>
-					</select> 
-					<select name="selectRow" form="formAnalytics">
-						<option selected>Top K</option>
-						<option>Alphabetical</option>
-					</select>
-					<input type="hidden" name="action" value="run" form="formAnalytics"/>
-					<input type="submit" name = "Run" value = "Run" form="formAnalytics">
+				<select name="selectCol" form="formAnalytics">
+					<option selected>Customers</option>
+					<option>States</option>
+				</select> 
+				<select name="selectRow" form="formAnalytics">
+					<option selected>Top K</option>
+					<option>Alphabetical</option>
+				</select>
+			<input type="hidden" name="action" value="run" form="formAnalytics"/>
+			<input type="submit" name = "Run" value = "Run" form="formAnalytics">
 			</form> 
 	<%
     }
