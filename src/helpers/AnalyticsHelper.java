@@ -14,7 +14,8 @@ public class AnalyticsHelper {
 	
 	public static int uOffset = 0;
 	public static int pOffset = 0;
-
+    //public static boolean isTopK = true;
+    //public static boolean isStates = false;
 	//public static int cid = 0;
 	//public static boolean buttonClicked = false;
 	
@@ -25,9 +26,8 @@ public class AnalyticsHelper {
             } catch (Exception e) {
                 System.err.println("Internal Server Error. This shouldn't happen.");
             }
-            
-            buildTop20(0,0,true,false);
-            buildTop10(0,0,true);
+            buildTop20(0,cid,isTopK,isStates);
+            buildTop10(0,cid,isTopK);
             
             System.out.println(tableReady);
         }catch (Exception e) {
@@ -44,10 +44,10 @@ public class AnalyticsHelper {
 					if(isState){
 						//top20 states, topK, without cid
 						buildTop20 += "create temporary table top20 as "
-								+ "SELECT stt.stid, stt.stname, SUM(s.quantity*s.price) as msum "
+								+ "SELECT stt.stid as uid, stt.stname as uname, SUM(s.quantity*s.price) as msum "
 								+ "from (select st.id as stid, st.name as stname from states st "
 								+ "order by stname ASC LIMIT '"+end+"' OFFSET '"+uOffset+"') as stt, users u, sales s "
-								+ "where u.id=s.uid and u.state=stt.stid group by stt.stid, stt.stname order by states_sales DESC";
+								+ "where u.id=s.uid and u.state=stt.stid group by stt.stid, stt.stname order by msum DESC";
 					}else{
 						//build top20 users table with selection of topK
 						buildTop20 += "CREATE TEMPORARY TABLE top20 AS "
@@ -187,12 +187,17 @@ public class AnalyticsHelper {
 		}
 	}
 	
-	public static List<AnalyticsUser> getAnalyticsUserList() throws Exception{
+	public static List<AnalyticsUser> getAnalyticsUserList(boolean isStates) throws Exception{
 		List<AnalyticsUser> res = new ArrayList<AnalyticsUser>();
 		Statement stmt = null;
 		try{
-
-			String query = "SELECT t.uid, u.name, t.msum FROM top20 t, users u WHERE t.uid=u.id";
+			String query = null;
+			//if (isStates){
+				//query = 
+			//}
+			//else{
+				query = "SELECT t.uid, u.name, t.msum FROM top20 t, users u WHERE t.uid=u.id";
+			//}
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			

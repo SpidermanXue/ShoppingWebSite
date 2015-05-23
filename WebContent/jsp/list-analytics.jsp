@@ -54,24 +54,14 @@ table, td, th {
 		cid = Integer.parseInt(request.getParameter("cid"));
 	}
 	//System.out.println("action is: " + action);
-	if(action!=null && action.equals("run")){
-		AnalyticsHelper.buildAnalyticsHelper(0, true, false);
+	if(action!=null && action.equals("run")){	
+		System.out.println(customer_or_states);
+		System.out.println(topk_or_alphabetical);
+		AnalyticsHelper.buildAnalyticsHelper(cid,topk_or_alphabetical.equals("Top K"),customer_or_states.equals("States"));		
 		List<AnalyticsProduct> products = AnalyticsHelper.getAnalyticsProductList();
-		System.out.println(products.isEmpty());
-		List<AnalyticsUser> users = AnalyticsHelper.getAnalyticsUserList();
-		List<List<Integer>> dataSet = AnalyticsHelper.getUserProductDataList(users.size(), products.size()); 
-		/*
-		// build states table if states filtering option is chosen
-		if (customer_or_states.equals("States")){
-		
-		
-		}
-
-		// check for top k or alphabetical option 
-		if (topk_or_alphabetical.equals("")){
-			
-		}
-		*/
+		//System.out.println(products.isEmpty());
+		List<AnalyticsUser> users = AnalyticsHelper.getAnalyticsUserList(customer_or_states.equals("States"));
+		List<List<Integer>> dataSet = AnalyticsHelper.getUserProductDataList(users.size(), products.size()); 	
 %>
 <table  width="100%" border="0" cellspacing="0" cellpadding="0"
     class="table table-striped"
