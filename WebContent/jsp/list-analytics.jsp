@@ -9,47 +9,19 @@ don't want to. -->
     import = "java.lang.*"
     import="javax.servlet.*"%>
 <%
+	// time stamp
 	long startTime = System.currentTimeMillis();
 %>
-<%=CategoriesHelper.modifyCategories(request)%>
-<%
-	List<CategoryWithCount> categories = CategoriesHelper
-			.listCategories();	
 
+<%--Getting actions --%>
+<%
 	String action = request.getParameter("action");	
 	String customer_or_states = request.getParameter("selectCol");
 	String topk_or_alphabetical = request.getParameter("selectRow");
 
 %>
 
-<% 
-if (action !=null)
-{
-%>	
-
-<form action="analytics" >
-<input type="hidden" name="action" value="next20"/>
-<input type="submit" name="next20" value="next20" style="float:left;">	
-</form>
-		
-<form action="analytics">
-<input type="hidden" name="action" value="next10"/>
-<input type="submit" name="next10" value="next10" style="float:right;">
-<br>
-</form>
-<%
-}
-%>
-<style>
-table {
-    border-collapse: collapse;
-}
-
-table, td, th {
-    border: 1px solid black;
-    border-color: #0000ff;
-}
-</style>
+<%-- Getting the data from data base --%>
 <%	
 	//System.out.println(customer_or_states);
 	int cid = 0;
@@ -64,8 +36,47 @@ table, td, th {
 		List<AnalyticsProduct> products = AnalyticsHelper.getAnalyticsProductList();
 		//System.out.println(products.isEmpty());
 		List<AnalyticsUser> users = AnalyticsHelper.getAnalyticsUserList(customer_or_states.equals("States"));
-		AnalyticsHelper.buildUserProductDataMap();
+		AnalyticsHelper.buildUserProductDataMap(customer_or_states.equals("States"));
 %>
+
+<%-- Handle button behavior --%>
+<% 
+if (action !=null)
+{
+%>	
+<%
+if(users.size()==20){
+%>
+<form action="analytics" >
+<input type="hidden" name="action" value="next20"/>
+<input type="submit" name="next20" value="next20" style="float:left;">	
+</form>
+<%
+}
+if(products.size()==10){
+%>
+<form action="analytics">
+<input type="hidden" name="action" value="next10"/>
+<input type="submit" name="next10" value="next10" style="float:right;">
+<br>
+</form>
+<%
+}
+}
+%>
+
+<%-- Table --%>
+<style>
+table {
+    border-collapse: collapse;
+}
+
+table, td, th {
+    border: 1px solid black;
+    border-color: #0000ff;
+}
+</style>
+
 <table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0"
     class="table table-striped"
     align="center" style="margin-top:4px;margin-left:4px;margin-right:4px;margin-bottom:4px; overflow: scroll;">
@@ -93,7 +104,7 @@ table, td, th {
     for(AnalyticsUser user : users){
     %>
     <tr align="center">
-    <td><B><%=user.uname %>><br>($<%=user.sum %>)</B></td> 
+    <td><B><%=user.uname %><br>($<%=user.sum %>)</B></td> 
     <%
 		for(AnalyticsProduct product : products){
     %>

@@ -76,27 +76,26 @@ public class AnalyticsHelper {
 						+ "FROM (select id, name from users order by name asc limit '"+end+"' offset '"+uOffset+"') um "
 						+ "left outer join (select uid, (sum(quantity) * price) as money "
 						+ "FROM sales group by uid, pid, price) sm on sm.uid = um.id Group by um.id, um.name ORDER BY uname asc";
-				
 					}
 				}
 			}else{
 				if(isTopK){
 					if(isState){
-					//topk with cid
-					buildTop20 += "CREATE TEMPORARY TABLE top20 AS "
-							+ "SELECT u.id as uid, COALESCE(ss.uqsum,0) AS uqsum, COALESCE(ss.msum,0) AS msum "
-							+ "from (users u left outer join (SELECT s.uid AS uid, SUM(s.quantity) AS uqsum, SUM(s.price*s.quantity) AS msum "
-							+ "FROM sales s, products p WHERE p.id=s.id AND p.cid = '"+cid+"' GROUP BY s.uid) ss on u.id = ss.uid) "
-							+ "ORDER BY msum DESC, uqsum DESC LIMIT '"+end+"' OFFSET '"+uOffset+"'";
-					}else{
-						//topK with cid, state
+						//state, topk, with cid
 						buildTop20 += "create temporary table top20 as "
 								+ "SELECT stt.stid, stt.stname, SUM(s.quantity*s.price) as msum "
 								+ "from (select st.id as stid, st.name as stname from states st "
 								+ "order by stname ASC LIMIT '"+end+"' OFFSET '"+uOffset+"') as stt, users u, sales s "
 								+ "where s.pid in ( select  id from products p "
 								+ "where p.cid = '"+cid+"') and u.id=s.uid and u.state=stt.stid "
-								+ "group by stt.stid, stt.stname order by states_sales DESC";
+								+ "group by stt.stid, stt.stname order by msum DESC";
+					}else{
+						//topK with cid, customer
+						buildTop20 += "CREATE TEMPORARY TABLE top20 AS "
+								+ "SELECT u.id as uid, COALESCE(ss.uqsum,0) AS uqsum, COALESCE(ss.msum,0) AS msum "
+								+ "from (users u left outer join (SELECT s.uid AS uid, SUM(s.quantity) AS uqsum, SUM(s.price*s.quantity) AS msum "
+								+ "FROM sales s, products p WHERE p.id=s.id AND p.cid = '"+cid+"' GROUP BY s.uid) ss on u.id = ss.uid) "
+								+ "ORDER BY msum DESC, uqsum DESC LIMIT '"+end+"' OFFSET '"+uOffset+"'";
 					}
 				}else{
 					if(isState){
@@ -140,17 +139,17 @@ public class AnalyticsHelper {
 					//alphabetical, no cid
 					buildTop10 += "create temporary table top10 as "
 							+ "select pm.id as pid, pm.name as pname, COALESCE(sm.money,0) as psum "
-							+ "FROM (select id, name from products order by name asc limit 10 offset 0) pm "
+							+ "FROM (select id, name from products order by name asc limit '"+end+"' offset '"+pOffset+"') pm "
 							+ "left outer join (select pid, sum(quantity) * price as money "
-							+ "from sales group by pid, price) sm on sm.pid = pm.id order by pname ASC '"+end+"' OFFSET '"+pOffset+"'";
+							+ "from sales group by pid, price) sm on sm.pid = pm.id order by pname ASC";
 				}
 			}else{
 				if(isTopK){
 					//topk, with cid
-				buildTop10 += "CREATE TEMPORARY TABLE top10 AS "
-						+ "SELECT s.pid AS pid, SUM(s.quantity) AS pqsum, SUM(s.quantity * s.price) AS psum "
-						+ "FROM sales s, products p WHERE p.id = s.pid AND p.cid = '"+cid+"' GROUP BY s.pid "
-						+ "ORDER BY psum DESC, pqsum DESC LIMIT 10 OFFSET 0'"+pOffset+"' OFFSET '"+pOffset+"';";
+					buildTop10 += "CREATE TEMPORARY TABLE top10 AS "
+							+ "SELECT s.pid AS pid, SUM(s.quantity) AS pqsum, SUM(s.quantity * s.price) AS psum "
+							+ "FROM sales s, products p WHERE p.id = s.pid AND p.cid = '"+cid+"' GROUP BY s.pid "
+							+ "ORDER BY psum DESC, pqsum DESC LIMIT '"+end+"' OFFSET '"+pOffset+"'";
 				}else{
 					//alphabetical, no cid
 					buildTop10 += "create temporary table top10 as select pm.id as pid, pm.name as pname, COALESCE(sm.money,0) as psum "
@@ -170,9 +169,7 @@ public class AnalyticsHelper {
 		List<AnalyticsProduct> res = new ArrayList<AnalyticsProduct>();
 		Statement stmt = null;
 		try{
-			if(tableReady){
-				throw new Exception("fuckedup");
-			}
+
 			String query = "SELECT t.pid, p.name, t.psum FROM top10 t, products p WHERE t.pid=p.id";
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -218,17 +215,26 @@ public class AnalyticsHelper {
 			System.out.println("size of the user list: " + res.size());
 			return res;
 		}catch(Exception e){
-			System.err.println("Some error happened when getting the title.<br/>" + e.getLocalizedMessage());
+			System.err.println("Some error happened when getting the userlist.<br/>" + e.getLocalizedMessage());
 			return new ArrayList<AnalyticsUser>();
 		}
 	}
 	
-	public static void buildUserProductDataMap() throws Exception{
+	public static void buildUserProductDataMap(boolean isState) throws Exception{
 		
 		try{
-			String query = "select up.pid, up.uid, SUM(s.price*s.quantity) "
+			String query = null;
+			if(isState){
+				query = "select ak.pid as pid, ak.stid as stid, COALESCE(SUM(ak.money),0) as psum "
+						+ "from (select us.pid, us.stid, SUM(s.quan) * s.price AS money "
+						+ "from (SELECT * FROM (SELECT * from top20, top10) up left join users u on up.stid=u.state) us "
+						+ "left join (select pid, uid, SUM(quantity) as quan, price from sales group by pid, uid, price) s "
+						+ "on (us.id = s.uid and us.pid = s.pid) group by us.stid, us.pid, s.price) ak Group by ak.pid, ak.stid";
+			}else{
+			query = "select up.pid, up.uid, SUM(s.price*s.quantity) "
 					+ "from (SELECT * from top20, top10) up left join sales s on (up.uid = s.uid and up.pid = s.pid) "
 					+ "group by up.uid, up.pid";
+			}
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){
