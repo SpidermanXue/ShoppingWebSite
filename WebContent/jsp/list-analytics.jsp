@@ -64,7 +64,7 @@ table, td, th {
 		List<AnalyticsProduct> products = AnalyticsHelper.getAnalyticsProductList();
 		//System.out.println(products.isEmpty());
 		List<AnalyticsUser> users = AnalyticsHelper.getAnalyticsUserList(customer_or_states.equals("States"));
-		List<List<Integer>> dataSet = AnalyticsHelper.getUserProductDataList(users.size(), products.size()); 	
+		AnalyticsHelper.buildUserProductDataMap();
 %>
 <table height="100%" width="100%" border="0" cellspacing="0" cellpadding="0"
     class="table table-striped"
@@ -90,18 +90,16 @@ table, td, th {
     </thead>
     <tbody>
     <%
-    for(int i = 0; i < users.size(); i++){
-    	AnalyticsUser user = users.get(i);
-    	//List<Integer> rowSums = dataSet.get(i);
+    for(AnalyticsUser user : users){
     %>
     <tr align="center">
     <td><B><%=user.uname %>><br>($<%=user.sum %>)</B></td> 
     <%
-    //for(Integer sum : rowSums){
+		for(AnalyticsProduct product : products){
     %>
-    <td>$<%=i%></td>
+    <td>$<%=AnalyticsHelper.getSum(user.uid, product.pid)%></td>
     <%
-    //}
+    	}
     }
     %>
     </tbody>

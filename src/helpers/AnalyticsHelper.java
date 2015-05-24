@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 public class AnalyticsHelper {
@@ -19,7 +20,10 @@ public class AnalyticsHelper {
 	//public static int cid = 0;
 	//public static boolean buttonClicked = false;
 	
+	private static HashMap<Integer, HashMap<Integer, Integer>> hash = null;
+	
 	public static void buildAnalyticsHelper(int cid, boolean isTopK, boolean isStates) throws Exception{
+        hash = new HashMap<Integer, HashMap<Integer, Integer>>();
         try{
             try {
                 conn = HelperUtils.connect();
@@ -28,6 +32,7 @@ public class AnalyticsHelper {
             }
             buildTop20(0,cid,isTopK,isStates);
             buildTop10(0,cid,isTopK);
+            
             
             System.out.println(tableReady);
         }catch (Exception e) {
@@ -189,15 +194,16 @@ public class AnalyticsHelper {
 	
 	public static List<AnalyticsUser> getAnalyticsUserList(boolean isStates) throws Exception{
 		List<AnalyticsUser> res = new ArrayList<AnalyticsUser>();
+
 		Statement stmt = null;
 		try{
 			String query = null;
-			//if (isStates){
-				//query = 
-			//}
-			//else{
+			if (isStates){
+				query = "SELECT * FROM top20"; 
+			}
+			else{
 				query = "SELECT t.uid, u.name, t.msum FROM top20 t, users u WHERE t.uid=u.id";
-			//}
+			}
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			
@@ -217,30 +223,38 @@ public class AnalyticsHelper {
 		}
 	}
 	
-	public static List<List<Integer>> getUserProductDataList(int rowMax, int colMax) throws Exception{
+	public static void buildUserProductDataMap() throws Exception{
 		
-		List<List<Integer>> res = new ArrayList<List<Integer>>(rowMax);
 		try{
-			String query = "select up.pid, up.pqsum, up.uid, up.uqsum, up.msum, up.psum "
-					+ "from (SELECT * from top20, top10) up "
-					+ "left join sales s on (up.uid = s.uid and up.pid = s.pid)";
+			String query = "select up.pid, up.uid, SUM(s.price*s.quantity) "
+					+ "from (SELECT * from top20, top10) up left join sales s on (up.uid = s.uid and up.pid = s.pid) "
+					+ "group by up.uid, up.pid";
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			int counter = 0;
-			List<Integer> row = new ArrayList<Integer>(colMax);
 			while(rs.next()){
-				if(counter==colMax){
-					counter = 0;
-					res.add(row);
-					row = new ArrayList<Integer>(colMax);
+				int pid = rs.getInt(1);
+				int uid = rs.getInt(2);
+				int sum = rs.getInt(3);
+				if(hash.containsKey(uid)){
+					hash.get(uid).put(pid, sum);
+				}else{
+					hash.put(uid, new HashMap<Integer, Integer>());
+					hash.get(uid).put(pid, sum);
 				}
-					row.add(rs.getInt(1));
-					counter++;
 			}
-			return res;
+			// test print out
+			for (Integer name: hash.keySet()){
+	            String key =name.toString();
+	            String value = hash.get(name).toString();  
+	            System.out.println(key + " " + value);  
+	            } 
+			
 		}catch(Exception e){
-			return res;
 		}
+	}
+	
+	public static int getSum(int uid, int pid){	
+		return hash.get(uid).get(pid);
 	}
 	
 	public static void closeAll(){
