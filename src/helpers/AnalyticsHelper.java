@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.eclipse.jdt.internal.compiler.ast.ThrowStatement;
 public class AnalyticsHelper {
 	private static Boolean tableReady = false;
 	private static Connection conn = null;
@@ -15,10 +17,6 @@ public class AnalyticsHelper {
 	
 	public static int uOffset = 0;
 	public static int pOffset = 0;
-    //public static boolean isTopK = true;
-    //public static boolean isStates = false;
-	//public static int cid = 0;
-	//public static boolean buttonClicked = false;
 	
 	private static HashMap<Integer, HashMap<Integer, Integer>> hash = null;
 	
@@ -221,7 +219,7 @@ public class AnalyticsHelper {
 	}
 	
 	public static void buildUserProductDataMap(boolean isState) throws Exception{
-		
+		System.out.println("getting 200 -- inside");
 		try{
 			String query = null;
 			if(isState){
@@ -237,6 +235,7 @@ public class AnalyticsHelper {
 			}
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
+			System.out.println(rs);
 			while(rs.next()){
 				int pid = rs.getInt(1);
 				int uid = rs.getInt(2);
@@ -248,6 +247,7 @@ public class AnalyticsHelper {
 					hash.get(uid).put(pid, sum);
 				}
 			}
+			
 			// test print out
 			for (Integer name: hash.keySet()){
 	            String key =name.toString();
@@ -256,11 +256,18 @@ public class AnalyticsHelper {
 	            } 
 			
 		}catch(Exception e){
+			System.out.println("System");
 		}
 	}
 	
 	public static int getSum(int uid, int pid){	
-		return hash.get(uid).get(pid);
+		if(hash.containsKey(uid)){
+			if(hash.get(uid).containsKey(pid)){
+				return hash.get(uid).get(pid);
+
+			}
+		}
+		return -1;
 	}
 	
 	public static void closeAll(){
