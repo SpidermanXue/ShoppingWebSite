@@ -15,8 +15,8 @@ don't want to. -->
 	String action = request.getParameter("action");
 	String customer_or_states = request.getParameter("selectCol");
 	String topk_or_alphabetical = request.getParameter("selectRow");
-	String next10 = request.getParameter("next10");
-	String next20 = request.getParameter("next20");
+	//String next10 = request.getParameter("next10");
+	//String next20 = request.getParameter("next20");
 %>
 
 <%-- Getting the data from data base --%>
@@ -26,16 +26,17 @@ don't want to. -->
 	if (request.getParameter("cid") != null) {
 		cid = Integer.parseInt(request.getParameter("cid"));
 	}
-	System.out.println("action is: " + action);
-	if (action != null && action.equals("run")) {
-		System.out.println(customer_or_states);
-		System.out.println(topk_or_alphabetical);
-
+	
+	if (action != null) {
+		//System.out.println(customer_or_states);
+		//System.out.println(topk_or_alphabetical);
+		//System.out.println(next10); 
+		System.out.println("action is: " + action);
 		//choose a build combination
-		if (next10 != null) {
+		if (action.equals("next10")) {
 			AnalyticsHelper.buildTop10(AnalyticsHelper.pOffset, cid,
 					topk_or_alphabetical.equals("Top K"));
-		} else if (next20 != null) {
+		} else if (action.equals("next20")) {
 			AnalyticsHelper.buildTop20(AnalyticsHelper.uOffset, cid,
 					topk_or_alphabetical.equals("Top K"),
 					customer_or_states.equals("States"));
