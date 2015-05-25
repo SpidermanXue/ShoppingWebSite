@@ -15,8 +15,6 @@ don't want to. -->
 	String action = request.getParameter("action");
     String customer_or_states = null;
     String topk_or_alphabetical = null;
-    out.println("abcd");
-    
     
 	if(request.getParameter("selectCol") !=null){ 	
 		customer_or_states = request.getParameter("selectCol");
@@ -24,14 +22,12 @@ don't want to. -->
 		
     }else{
     	customer_or_states = session.getAttribute("col").toString();
-    	out.println("bbb"+ customer_or_states);
     }
 	if(request.getParameter("selectRow") !=null){ 	
 		topk_or_alphabetical = request.getParameter("selectRow");
 		session.setAttribute("row", customer_or_states);
     }else{
     	topk_or_alphabetical = session.getAttribute("row").toString();
-    	out.println("bbb"+ topk_or_alphabetical);
     }
 
 %>
@@ -45,10 +41,7 @@ don't want to. -->
 	}
 	
 	if (action != null) {
-		//System.out.println(customer_or_states);
-		//System.out.println(topk_or_alphabetical);
-		//System.out.println(next10); 
-		System.out.println("action is: " + action);
+		//System.out.println("action is: " + action);
 		//choose a build combination
 		if (action.equals("next10")) {
 			AnalyticsHelper.buildTop10(AnalyticsHelper.pOffset, cid,
@@ -85,16 +78,24 @@ don't want to. -->
 </form>
 <%
 	}
-			if (products.size() == 10) {
+			
 %>
 <form action="analytics">
-	<input type="hidden" name="action" value="next10" /> <input
-		type="submit" name="next10" value="next10" style="float: right;">
+	<input type="hidden" name="action" value="next10" /> 
+	<% if (products.size() == 10) {
+	%>
+	<input type="submit" name="next10" value="next10" style="float: right;">
+	<% 
+		}else{
+	%>
+	<input type="submit" name="next10" value="next10" disabled style="float: right;">
 	<br>
+	<%
+		}
+	%>
 </form>
 <%
 	}
-		}
 %>
 
 <%-- Table --%>
