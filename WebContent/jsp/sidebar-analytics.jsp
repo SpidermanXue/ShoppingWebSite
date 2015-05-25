@@ -4,16 +4,7 @@
     import="helpers.*"%>
    
     <% 
-    String action = request.getParameter("action");
-    if (action!=null && action.equals("next10")){  	
-    	AnalyticsHelper.colOffset+=10;
-	}else if (action!=null && action.equals("next20")){
-		AnalyticsHelper.rowOffset+=20;
-		System.out.println(AnalyticsHelper.rowOffset);
-	}else{
-		AnalyticsHelper.rowOffset = 0;
-		AnalyticsHelper.colOffset = 0;
-	}
+    AnalyticsHelper.changeSelection(request);
     if (AnalyticsHelper.rowOffset <20 || AnalyticsHelper.colOffset <10)
     {	
     %>	

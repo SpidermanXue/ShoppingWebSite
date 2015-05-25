@@ -13,25 +13,6 @@ don't want to. -->
 <%--Getting actions --%>
 <%
 	String action = request.getParameter("action");
-    String customer_or_states = null;
-    String topk_or_alphabetical = null;
-    
-	if(request.getParameter("selectCol") !=null){ 	
-		customer_or_states = request.getParameter("selectCol");
-		session.setAttribute("col", customer_or_states);
-		
-    }else{
-    	customer_or_states = session.getAttribute("col").toString();
-    	session.removeAttribute("col");
-    }
-	if(request.getParameter("selectRow") !=null){ 	
-		topk_or_alphabetical = request.getParameter("selectRow");
-		session.setAttribute("row", customer_or_states);
-    }else{
-    	topk_or_alphabetical = session.getAttribute("row").toString();
-    	session.removeAttribute("row");
-    }
-
 %>
 
 <%-- Getting the data from data base --%>
@@ -45,31 +26,13 @@ don't want to. -->
 	if (action != null) {
 		//System.out.println("action is: " + action);
 		//choose a build combination
-		if (action.equals("next10")) {
-			System.out.println("doing nex10");
-			AnalyticsHelper.buildTop10(AnalyticsHelper.colOffset, cid,
-					topk_or_alphabetical.equals("Top K"));
-		} else if (action.equals("next20")) {
-			System.out.println("doing next20");
-			AnalyticsHelper.buildTop20(AnalyticsHelper.rowOffset, cid,
-					topk_or_alphabetical.equals("Top K"),
-					customer_or_states.equals("States"));
-		} else {
-			System.out.print("doing both");
-			AnalyticsHelper.buildAnalyticsHelper(cid,
-					topk_or_alphabetical.equals("Top K"),
-					customer_or_states.equals("States"));
-		}
+
 		//query all data
 		List<AnalyticsProduct> products = AnalyticsHelper
 				.getAnalyticsProductList();		
 		List<AnalyticsUser> users = AnalyticsHelper
-				.getAnalyticsUserList(customer_or_states
-						.equals("States"));
-		System.out.println("Getting 200 rows");
-		System.out.println("option: "+customer_or_states);
-		AnalyticsHelper.buildUserProductDataMap(customer_or_states
-				.equals("States"));
+				.getAnalyticsUserList();
+		AnalyticsHelper.buildUserProductDataMap();
 %>
 
 <%-- Handle button behavior --%>
