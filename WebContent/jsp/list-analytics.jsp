@@ -13,10 +13,27 @@ don't want to. -->
 <%--Getting actions --%>
 <%
 	String action = request.getParameter("action");
-	String customer_or_states = request.getParameter("selectCol");
-	String topk_or_alphabetical = request.getParameter("selectRow");
-	//String next10 = request.getParameter("next10");
-	//String next20 = request.getParameter("next20");
+    String customer_or_states = null;
+    String topk_or_alphabetical = null;
+    out.println("abcd");
+    
+    
+	if(request.getParameter("selectCol") !=null){ 	
+		customer_or_states = request.getParameter("selectCol");
+		session.setAttribute("col", customer_or_states);
+		
+    }else{
+    	customer_or_states = session.getAttribute("col").toString();
+    	out.println("bbb"+ customer_or_states);
+    }
+	if(request.getParameter("selectRow") !=null){ 	
+		topk_or_alphabetical = request.getParameter("selectRow");
+		session.setAttribute("row", customer_or_states);
+    }else{
+    	topk_or_alphabetical = session.getAttribute("row").toString();
+    	out.println("bbb"+ topk_or_alphabetical);
+    }
+
 %>
 
 <%-- Getting the data from data base --%>
