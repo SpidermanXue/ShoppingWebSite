@@ -44,13 +44,16 @@ don't want to. -->
 		//System.out.println("action is: " + action);
 		//choose a build combination
 		if (action.equals("next10")) {
-			AnalyticsHelper.buildTop10(AnalyticsHelper.pOffset, cid,
+			System.out.println("doing nex10");
+			AnalyticsHelper.buildTop10(AnalyticsHelper.colOffset, cid,
 					topk_or_alphabetical.equals("Top K"));
 		} else if (action.equals("next20")) {
-			AnalyticsHelper.buildTop20(AnalyticsHelper.uOffset, cid,
+			System.out.println("doing next20");
+			AnalyticsHelper.buildTop20(AnalyticsHelper.rowOffset, cid,
 					topk_or_alphabetical.equals("Top K"),
 					customer_or_states.equals("States"));
 		} else {
+			System.out.print("doing both");
 			AnalyticsHelper.buildAnalyticsHelper(cid,
 					topk_or_alphabetical.equals("Top K"),
 					customer_or_states.equals("States"));

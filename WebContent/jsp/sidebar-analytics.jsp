@@ -6,15 +6,15 @@
     <% 
     String action = request.getParameter("action");
     if (action!=null && action.equals("next10")){  	
-    	AnalyticsHelper.pOffset+=10;
+    	AnalyticsHelper.colOffset+=10;
 	}else if (action!=null && action.equals("next20")){
-		AnalyticsHelper.uOffset+=20;
-		System.out.println(AnalyticsHelper.uOffset);
+		AnalyticsHelper.rowOffset+=20;
+		System.out.println(AnalyticsHelper.rowOffset);
 	}else{
-		AnalyticsHelper.pOffset = 0;
-		AnalyticsHelper.uOffset = 0;
+		AnalyticsHelper.rowOffset = 0;
+		AnalyticsHelper.colOffset = 0;
 	}
-    if (AnalyticsHelper.uOffset <20 || AnalyticsHelper.pOffset <10)
+    if (AnalyticsHelper.rowOffset <20 || AnalyticsHelper.colOffset <10)
     {	
     %>	
 <div class="panel panel-default">
