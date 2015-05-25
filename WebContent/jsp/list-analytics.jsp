@@ -22,12 +22,14 @@ don't want to. -->
 		
     }else{
     	customer_or_states = session.getAttribute("col").toString();
+    	session.removeAttribute("col");
     }
 	if(request.getParameter("selectRow") !=null){ 	
 		topk_or_alphabetical = request.getParameter("selectRow");
 		session.setAttribute("row", customer_or_states);
     }else{
     	topk_or_alphabetical = session.getAttribute("row").toString();
+    	session.removeAttribute("row");
     }
 
 %>
