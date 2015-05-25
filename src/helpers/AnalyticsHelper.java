@@ -47,10 +47,11 @@ public class AnalyticsHelper {
 					if(isState){
 						//top20 states, topK, without cid
 						buildTop20 += "create temporary table top20 as "
-								+ "SELECT stt.stid as uid, stt.stname as uname, SUM(s.quantity*s.price) as msum "
-								+ "from (select st.id as stid, st.name as stname from states st "
-								+ "order by stname ASC LIMIT '"+end+"' OFFSET '"+uOffset+"') as stt, users u, sales s "
-								+ "where u.id=s.uid and u.state=stt.stid group by stt.stid, stt.stname order by msum DESC";
+								+ "SELECT stt.stid, stt.stname, SUM(s.quantity*s.price) as states_sales "
+								+ "from (select st.id as stid, st.name as stname "
+								+ "from states st order by stname ASC LIMIT '"+end+"' OFFSET '"+uOffset+"') as stt, users u, sales s "
+								+ "where u.id=s.uid and u.state=stt.stid group by stt.stid, stt.stname "
+								+ "order by states_sales DESC";
 					}else{
 						//build top20 users table with selection of topK
 						buildTop20 += "CREATE TEMPORARY TABLE top20 AS "
@@ -256,18 +257,17 @@ public class AnalyticsHelper {
 	            } 
 			
 		}catch(Exception e){
-			System.out.println("System");
+			System.out.println("Error inside build 200 data.  " + e.getLocalizedMessage());
 		}
 	}
 	
-	public static int getSum(int uid, int pid){	
+	public static int getSum(int uid, int pid) throws Exception{	
 		if(hash.containsKey(uid)){
 			if(hash.get(uid).containsKey(pid)){
 				return hash.get(uid).get(pid);
-
 			}
 		}
-		return -1;
+		throw new Exception("error finding in hash map, fetal");
 	}
 	
 	public static void closeAll(){
