@@ -16,22 +16,18 @@ don't want to. -->
 %>
 
 <%-- Getting the data from data base --%>
-<%
-	//System.out.println(customer_or_states);
-	int cid = 0;
-	if (request.getParameter("cid") != null) {
-		cid = Integer.parseInt(request.getParameter("cid"));
-	}
-	
+<%	
 	if (action != null) {
 		//System.out.println("action is: " + action);
 		//choose a build combination
 
 		//query all data
 		List<AnalyticsProduct> products = AnalyticsHelper
-				.getAnalyticsProductList();		
+				.getAnalyticsProductList();	
+		System.out.println("products size: " + products.size());
 		List<AnalyticsUser> users = AnalyticsHelper
 				.getAnalyticsUserList();
+		System.out.println("user size: " + users.size());
 		AnalyticsHelper.buildUserProductDataMap();
 %>
 

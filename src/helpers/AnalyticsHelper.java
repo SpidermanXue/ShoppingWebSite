@@ -34,13 +34,14 @@ public class AnalyticsHelper {
 				System.err
 						.println("Internal Server Error. This shouldn't happen.");
 			}
+			
 			buildTop20();
 			buildTop10();
 
 		} catch (Exception e) {
 			System.err.println("Some error happened! build<br/>"
 					+ e.getLocalizedMessage());
-		}
+		} 
 	}
 
 	public static void buildTop20() throws Exception {
@@ -311,6 +312,9 @@ public class AnalyticsHelper {
 		if(request.getParameter("selectRow") !=null){ 	
 			isTopK = request.getParameter("selectRow").equals("Top K");
 	    }
+		if (request.getParameter("cid") != null) {
+			cid = Integer.parseInt(request.getParameter("cid"));
+		}
 		
 		// build depending on selection
 		if (action!=null && action.equals("next10")) {
