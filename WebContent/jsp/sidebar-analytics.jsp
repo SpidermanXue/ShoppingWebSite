@@ -3,6 +3,10 @@
     import="java.util.List"
     import="helpers.*"%>
    
+   <%
+	// time stamp
+	long startTime = System.currentTimeMillis();
+  %>
     <% 
     AnalyticsHelper.changeSelection(request);
     if (AnalyticsHelper.rowOffset <20 || AnalyticsHelper.colOffset <10)
@@ -41,7 +45,13 @@
 			</form> 
 	<%
     }
-	%>	
+	%>
+	<%
+	long endTime = System.currentTimeMillis();
+	long runTime = endTime - startTime;
+	%>
+	Running Time:<%=runTime%>
+	ms.	
 		</div>
 	</div>
 </div>

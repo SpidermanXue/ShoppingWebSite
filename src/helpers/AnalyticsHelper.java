@@ -323,7 +323,7 @@ public class AnalyticsHelper {
 		} else if (action!=null && action.equals("next20")) {
 			System.out.println("doing next20");
 			buildTop20();
-		} else {
+		} else if (action!=null){
 			System.out.print("doing both");
 			buildAnalyticsHelper();
 		}
