@@ -69,9 +69,9 @@ public class AnalyticsHelper {
 								+ "FROM sales s, states st, users u WHERE u. id = s.uid and u.state = st.id "
 								+ "group by stid, pid, price) sm on sm.stid = stm.stid group by stm.stid, stm.stname order by stname";
 					}else{
-						//Alphabetical
+						//Alphabetical, TOPK, without cid
 						buildTop20 += "create temporary table top20 as "
-						+ "select um.id as uid, um.name as uname, SUM(COALESCE(sm.money,0)) as usum "
+						+ "select um.id as uid, um.name as uname, SUM(COALESCE(sm.money,0)) as msum "
 						+ "FROM (select id, name from users order by name asc limit '"+end+"' offset '"+uOffset+"') um "
 						+ "left outer join (select uid, (sum(quantity) * price) as money "
 						+ "FROM sales group by uid, pid, price) sm on sm.uid = um.id Group by um.id, um.name ORDER BY uname asc";
@@ -108,7 +108,7 @@ public class AnalyticsHelper {
 					}else{
 					//Alphabetical user, topK, with cid
 					buildTop20 += "create temporary table top20 as "
-							+ "select um.id as uid, um.name as uname, SUM(COALESCE(sm.money,0)) as usum "
+							+ "select um.id as uid, um.name as uname, SUM(COALESCE(sm.money,0)) as msum "
 							+ "FROM (select id, name from users order by name asc limit '"+end+"' offset '"+uOffset+"') um "
 							+ "left outer join (select uid, (sum(quantity) * price) as money FROM sales s "
 							+ "where s.pid in ( select  id from products p where p.cid = '"+cid+"') group by uid, pid, price) sm "
@@ -150,11 +150,12 @@ public class AnalyticsHelper {
 							+ "FROM sales s, products p WHERE p.id = s.pid AND p.cid = '"+cid+"' GROUP BY s.pid "
 							+ "ORDER BY psum DESC, pqsum DESC LIMIT '"+end+"' OFFSET '"+pOffset+"'";
 				}else{
-					//alphabetical, no cid
-					buildTop10 += "create temporary table top10 as select pm.id as pid, pm.name as pname, COALESCE(sm.money,0) as psum "
-							+ "FROM (select id, name from products order by name asc limit '"+end+"' offset '"+pOffset+"') pm "
-							+ "left outer join (select pid, sum(quantity) * price as money from sales group by pid, price) sm "
-							+ "on sm.pid = pm.id order by pname ASC";
+					//alphabetical, with cid
+					buildTop10 += "create temporary table top10 as "
+							+ "select pm.id as pid, pm.name as pname, COALESCE(sm.money,0) as psum "
+							+ "FROM (select id, name from products where cid = '"+cid+"' order by name asc LIMIT '"+end+"' OFFSET '"+pOffset+"') pm "
+							+ "left outer join (select pid, sum(quantity) * price as money "
+							+ "from sales group by pid, price) sm on sm.pid = pm.id order by pname ASC";
 				}
 			}
             stmt = conn.createStatement();
