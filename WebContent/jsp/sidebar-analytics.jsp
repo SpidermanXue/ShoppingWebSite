@@ -21,7 +21,7 @@
 				<select name = "cid" style="color: #00000F" form="formAnalytics">
 				<option value = "<%=0 %>" selected>ALL</option>
 				<%
-					List<CategoryWithCount> categories = CategoriesHelper.listCategories();
+					List<CategoryWithCount> categories = CategoriesHelper.listCategories(); //save all the categories into list
 					for (CategoryWithCount cwc : categories) {
 						//System.out.println("id is " + cwc.getId());
 				%>

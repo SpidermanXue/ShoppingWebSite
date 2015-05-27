@@ -5,11 +5,11 @@ don't want to. -->
 <%@page
     import="java.util.List"
     import="helpers.*"%>
-<%=ProductsHelper.modifyProducts(request)%> <!-- call the helper to print the products -->
+<%=ProductsHelper.modifyProducts(request)%> <!-- those actions send to function to modify db--> 
 <form action="products">
     <%
     	String search = request.getParameter("search");
-    	search = (search != null) ? search : "";
+    	search = (search != null) ? search : ""; //if search null set it to "" 
     	String category = request.getParameter("category");
     	category = (category != null) ? category : "";
     %>
@@ -57,41 +57,14 @@ don't want to. -->
             <td><%=p.getCategoryName()%></td>
             <td><%=p.getPrice()%></td>
             <td>
-                <form
-                    action="products"
-                    method="post">
-                    <input
-                        type="text"
-                        name="category"
-                        id="category"
-                        value="<%=category%>"
-                        style="display: none" /> 
-                        <input
-                        type="text"
-                        name="search"
-                        id="search"
-                        value="<%=search%>"
-                        style="display:none;"
-                        size="40" /> 
-                        <input
-                        type="text"
-                        name="action"
-                        id="action"
-                        value="delete"
-                        style="display: none"> 
-                        <input
-                        type="text"
-                        name="id"
-                        id="id"
-                        value="<%=p.getId()%>"
-                        style="display: none"> 
-                        <input
-                        type="submit"
-                        value="Delete">
+                <form action="products" method="post">
+                    <input type="text" name="category" id="category" value="<%=category%>" style="display: none" /> 
+                    <input type="text" name="search" id="search" value="<%=search%>" style="display:none;" size="40" /> 
+                    <input type="text" name="action" id="action" value="delete" style="display: none">
+                    <input type="text" name="id" id="id" value="<%=p.getId()%>" style="display: none"> 
+                    <input type="submit" value="Delete"> 
                 </form>
-                <button
-                    data-toggle="modal"
-                    data-target="#product-<%=p.getId()%>">Update</button>
+                <button data-toggle="modal" data-target="#product-<%=p.getId()%>">Update</button>
                 <div
                     class="modal fade"
                     id="product-<%=p.getId()%>"
@@ -164,30 +137,13 @@ don't want to. -->
                                             value="<%=p.getPrice()%>"
                                             size="40">
                                     </div>
-                                    <input
-                                        type="text"
-                                        name="category"
-                                        id="category"
-                                        value="<%=category%>"
-                                        style="display: none" /> <input
-                                        type="text"
-                                        name="search"
-                                        id="search"
-                                        value="<%=search%>"
-                                        size="40" /> <input
-                                        type="text"
-                                        name="id"
-                                        id="id"
-                                        value="<%=p.getId()%>"
-                                        style="display: none"> <input
-                                        type="text"
-                                        name="action"
-                                        id="action"
-                                        value="update"
-                                        style="display: none"> <input
-                                        type="submit"
-                                        value="Update">
+                                    <input type="text" name="category" id="category" value="<%=category%>" style="display: none" />
+                                    <input type="text" name="search" id="search" value="<%=search%>" size="40" /> 
+                                    <input type="text" name="id"  id="id" value="<%=p.getId()%>" style="display: none"> 
+                                    <input type="text" name="action" id="action" value="update" style="display: none">
+                                    <input type="submit" value="Update">
                                 </form>
+                                <!-- done with the update form -->
                             </div>
                         </div>
                     </div>

@@ -19,10 +19,10 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <%
-                                	if (nameNotNull) {
+                                	if (nameNotNull) { //check if login
                                 %>
                                 <%
-                                	if (roleIsOwner) {
+                                	if (roleIsOwner) { // check if is owner
                                 %>
                                 <jsp:include page="/jsp/owner-menu.jsp" />
                                 <jsp:include page="/jsp/sidebar-categories.jsp">
