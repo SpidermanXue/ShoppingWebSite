@@ -38,8 +38,8 @@ function checkUsername() {
 		if (xmlHttp.readyState == 4) {
 			var responseDoc = xmlHttp.responseText;
 			var response = eval('('+responseDoc+')');
-			document.write(responseDoc);
-			document.write(response);
+			console.log(response);
+			console.log(responseDoc);
 			//if(response.isValidUser){
 				document.getElementById("errorUsername").style.display = "block";
 			//}
