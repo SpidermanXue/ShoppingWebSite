@@ -1,4 +1,8 @@
-<%@page import="helpers.SignupHelper"%>
+<%@page import="helpers.SignupHelper, org.json.simple.JSONObject"%>
 <%
-	SignupHelper.checkUsername(request.getParameter("username"));
+	JSONObject result = new JSONObject();
+	System.out.println("checking username in jsp");
+	result.put("result", SignupHelper.checkUsername(request.getParameter("username")));
+	out.print(result);
+	out.flush();
 %>
