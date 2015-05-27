@@ -1,4 +1,4 @@
 <%@page import="helpers.SignupHelper"%>
 <%
-	SignupHelper.checkUsername("abc");
+	SignupHelper.checkUsername(request.getParameter("username"));
 %>

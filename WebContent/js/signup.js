@@ -25,17 +25,28 @@ function checkSignUpInfo() {
 
 }
 //haven't finish here, don't know how to parse the response yet.
-function lastTimeFunction() {
+function checkUsername() {
 	var xmlHttp;
 	xmlHttp = new XMLHttpRequest();
+	var username = document.getElementById("username").value;
 
 	var responseHandler = function() {
+		if (xmlHttp.status != 200){
+			alert("HTTP status is " + xmlHttp.status + " instead of 200");
+			return;
+		}
 		if (xmlHttp.readyState == 4) {
-			document.getElementById("errorUsername").style.display = "block";
+			var responseDoc = xmlHttp.responseText;
+			var response = eval('('+responseDoc+')');
+			document.write(responseDoc);
+			document.write(response);
+			//if(response.isValidUser){
+				document.getElementById("errorUsername").style.display = "block";
+			//}
 		}
 	}
 
 	xmlHttp.onreadystatechange = responseHandler;
-	xmlHttp.open("GET", "checkUsername.jsp", true);
+	xmlHttp.open("GET", "checkUsername.jsp?useranme="+username, true);
 	xmlHttp.send(null);
 }
