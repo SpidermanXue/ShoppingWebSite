@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 public class SignupHelper {
 
     public static String signup(String name, Integer age, String role, String state) {
@@ -58,5 +57,26 @@ public class SignupHelper {
         } else {
             throw new SQLException("There is no state with this name : " + stateName);
         }
+    }
+    
+    public static boolean checkUsername(String username) throws SQLException{
+    	Connection conn = null;
+    	String query = "SELECT COUNT(1) FROM users u WHERE u.name= '"+username+"'";
+    	try {
+    		try{
+    			conn = HelperUtils.connect();
+    		}catch (Exception e){
+                System.out.println("Could not register PostgreSQL JDBC driver with the DriverManager");
+    		}
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			if(rs.next()){
+				return true;
+			}
+			return false;
+		} catch (SQLException e) {
+			// TODO: handle exception
+			throw new SQLException("Error connect to data base when checking username: " + e.getLocalizedMessage());
+		}
     }
 }
