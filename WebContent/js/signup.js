@@ -1,25 +1,26 @@
 function checkSignUpInfo(){
-	var name = document.getElementById("").value
-	var role = document.getElementById("").value
-	var age = document.getElementById("").value
-	var state = document.getElementById("").value
-	
-	if(name==null){
-		document.getElementById("").disabled = false
+	var name = document.signup.name.value;
+	var role = document.signup.role.selectedIndex;
+	var age = document.getElementById("age").value;
+	var state = document.signup.state.selectedIndex;
+    var check = true;
+
+	if(name == null || name == "" ){
+		 document.getElementById("myname").style.display = "block";
+		 check = false;
 	}
-	if(role==null){
-		document.getElementById("").disabled = false
+	if(role == 0){
+		 document.getElementById("myrole").style.display = "block";
+		 check = false;
 	}
-	if(name==null){
-		document.getElementById("").disabled = false
+	if(age == null || age == ""){
+		 document.getElementById("myage").style.display = "block";
+		 check = false;
 	}
-	if(role==null){
-		document.getElementById("").disabled = false
+	if(state == 0){
+		 document.getElementById("mystate").style.display = "block";
+		 check = false;
 	}
-	
-	//user name taken
-	if(username taken){
-		document.getElementById("").disabled = false
-	}
+	return check;
 	
 }

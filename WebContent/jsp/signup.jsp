@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <jsp:include page="/html/head.html" />
+<script type="text/javascript" src="js/signup.js"></script>
 </head>
 <body class="page-index" data-spy="scroll" data-offset="60" data-target="#toc-scroll-target">
 
@@ -40,7 +41,7 @@
                             		state = null;
                             	}
                             	if (name != null && age != null && role != null && state != null)
-                                    out.println(helpers.SignupHelper.signup(name, age, role, state));
+                                 //   out.println(helpers.SignupHelper.signup(name, age, role, state));
                             %>
                             <jsp:include page="/html/signup-form.html" />
                         </div>
