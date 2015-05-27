@@ -97,7 +97,7 @@ public class AnalyticsHelper {
 						buildTop20 += "CREATE TEMPORARY TABLE top20 AS "
 								+ "SELECT u.id as uid, COALESCE(ss.uqsum,0) AS uqsum, COALESCE(ss.msum,0) AS msum "
 								+ "from (users u left outer join (SELECT s.uid AS uid, SUM(s.quantity) AS uqsum, SUM(s.price*s.quantity) AS msum "
-								+ "FROM sales s, products p WHERE p.id=s.id AND p.cid = '"+cid+"' GROUP BY s.uid) ss on u.id = ss.uid) "
+								+ "FROM sales s, products p WHERE p.id=s.pid AND p.cid = '"+cid+"' GROUP BY s.uid) ss on u.id = ss.uid) "
 								+ "ORDER BY msum DESC, uqsum DESC LIMIT 20 OFFSET '"+rowOffset+"'";
 					}
 				} else {

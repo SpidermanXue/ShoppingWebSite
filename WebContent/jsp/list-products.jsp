@@ -8,9 +8,9 @@ don't want to. -->
 <%=ProductsHelper.modifyProducts(request)%> <!-- those actions send to function to modify db--> 
 <form action="products">
     <%
-    	String search = request.getParameter("search");
+    	String search = request.getParameter("search"); // get the search option 
     	search = (search != null) ? search : ""; //if search null set it to "" 
-    	String category = request.getParameter("category");
+    	String category = request.getParameter("category"); // get the category option
     	category = (category != null) ? category : "";
     %>
     <input
