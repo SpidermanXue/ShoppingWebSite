@@ -71,7 +71,7 @@ public class SignupHelper {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			if(rs.next()){
-				if(rs.getInt(1) == 0){
+				if(rs.getInt(1) != 0){
 					return true;
 				}
 			}

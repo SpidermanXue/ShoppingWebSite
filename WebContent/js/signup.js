@@ -29,7 +29,30 @@ function checkSignUpInfo() {
 	console.log("Checking username in js");
 	console.log(name);
 	if (name) {
-		return checkUsername(name);
+
+		// for checking user name
+		var xmlHttp;
+		xmlHttp = new XMLHttpRequest();
+
+		var responseHandler = function() {
+//			if (xmlHttp.status != 200) {
+//				alert("HTTP status is " + xmlHttp.status + " instead of 200");
+//				// return;
+//			}
+			if (xmlHttp.readyState == 4) {
+				var responseDoc = xmlHttp.responseText;
+				var response = eval('(' + responseDoc + ')');
+				console.log(responseDoc);
+				console.log(response.result);
+				if (!response.result) {
+					document.getElementById("errorUsername").style.display = "block";
+				}
+			}
+		}
+
+		xmlHttp.onreadystatechange = responseHandler;
+		xmlHttp.open("GET", "./jsp/checkUsername.jsp?useranme=" + name, true);
+		xmlHttp.send(null);
 	}
 
 	return false;
@@ -37,29 +60,5 @@ function checkSignUpInfo() {
 
 // haven't finish here, don't know how to parse the response yet.
 function checkUsername(name) {
-	// for checking user name
-	var xmlHttp;
-	xmlHttp = new XMLHttpRequest();
 
-	var responseHandler = function() {
-		if (xmlHttp.status != 200) {
-			alert("HTTP status is " + xmlHttp.status + " instead of 200");
-			// return;
-		}
-		if (xmlHttp.readyState == 4) {
-			var responseDoc = xmlHttp.responseText;
-			var response = eval('(' + responseDoc + ')');
-			console.log(response.result);
-			console.log("responseDoc : " + responseDoc);
-			if(!response.result){
-				document.getElementById("errorUsername").style.display = "block";
-			}
-		}
-	}
-
-	xmlHttp.onreadystatechange = responseHandler;
-	xmlHttp.open("GET", "./jsp/checkUsername.jsp?useranme=" + name, true);
-	xmlHttp.send(null);
-	
-	return response.result;
 }
