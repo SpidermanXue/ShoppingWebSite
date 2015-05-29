@@ -41,7 +41,7 @@
                             		state = null;
                             	}
                             	if (name != null && age != null && role != null && state != null)
-                                 //   out.println(helpers.SignupHelper.signup(name, age, role, state));
+                                  out.println(helpers.SignupHelper.signup(name, age, role, state));
                             %>
                             <jsp:include page="/html/signup-form.html" />
                         </div>

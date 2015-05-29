@@ -49,9 +49,9 @@ function checkSignUpInfo() {
 				}
 			}
 		}
-
+		
 		xmlHttp.onreadystatechange = responseHandler;
-		xmlHttp.open("GET", "./jsp/checkUsername.jsp?useranme=" + name, true);
+		xmlHttp.open("GET", "./jsp/checkUsername.jsp?username=" + name, true);
 		xmlHttp.send(null);
 	}
 

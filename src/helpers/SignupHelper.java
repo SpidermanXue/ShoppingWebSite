@@ -61,7 +61,8 @@ public class SignupHelper {
     
     public static boolean checkUsername(String username) throws SQLException{
     	Connection conn = null;
-    	String query = "SELECT COUNT(1) FROM users u WHERE u.name= '"+username+"'";
+    	System.out.print(username);
+    	String query = "SELECT name FROM users WHERE name= '"+username+"'";
     	try {
     		try{
     			conn = HelperUtils.connect();
@@ -71,11 +72,11 @@ public class SignupHelper {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			if(rs.next()){
-				if(rs.getInt(1) != 0){
-					return true;
+					return false;// found in db
 				}
+			else{
+			return true; //not found 
 			}
-			return false;
 		} catch (SQLException e) {
 			// TODO: handle exception
 			throw new SQLException("Error connect to data base when checking username: " + e.getLocalizedMessage());
