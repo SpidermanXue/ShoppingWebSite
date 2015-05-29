@@ -40,8 +40,9 @@
                             	} catch (Exception e) {
                             		state = null;
                             	}
-                            	if (name != null && age != null && role != null && state != null)
-                                  out.println(helpers.SignupHelper.signup(name, age, role, state));
+                            	if (name != null && age != null && role != null && state != null){
+                                //  helpers.SignupHelper.signup(name, age, role, state);
+                            	}
                             %>
                             <jsp:include page="/html/signup-form.html" />
                         </div>

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 public class SignupHelper {
 
-    public static String signup(String name, Integer age, String role, String state) {
+    public static boolean signup(String name, Integer age, String role, String state) {
 
         Connection conn = null;
         Statement stmt;
@@ -27,18 +27,23 @@ public class SignupHelper {
                 conn.commit();
                 conn.setAutoCommit(true);
             } catch (SQLException e) {
-                return HelperUtils.printError(e.getLocalizedMessage());
+                //return HelperUtils.printError(e.getLocalizedMessage());
+            	System.out.print("SQLEXCE" + e.getLocalizedMessage());
+            	return false;
             }
             conn.close();
         } catch (Exception e) {
             String output = "A problem happened while interacting with the database : \n" + e.getLocalizedMessage();
-            return HelperUtils.printError(output);
+           // return HelperUtils.printError(output);
+            System.out.print(output);
+            return false;
         }
         String output = "<h4>Registered successfully!</h4> <br>";
         output += "<table><tr><td>Name:</td><td>" + name + "</td></tr><tr><td>Role:</td><td>" + role
                 + "</td></tr><tr><td>Age:</td><td>" + age + "</td></tr><tr><td>State:</td><td>" + state
                 + "</td></tr></table>";
-        return HelperUtils.printSuccess(output);
+      //  return HelperUtils.printSuccess(output);
+        return true;
     }
 
     public static int getStateId(String stateName) throws SQLException {
@@ -61,7 +66,7 @@ public class SignupHelper {
     
     public static boolean checkUsername(String username) throws SQLException{
     	Connection conn = null;
-    	System.out.print(username);
+    //	System.out.print(username);
     	String query = "SELECT name FROM users WHERE name= '"+username+"'";
     	try {
     		try{
