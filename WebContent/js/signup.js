@@ -10,6 +10,8 @@ function checkSignUpInfo() {
 	document.getElementById("myrole").style.display = "none";
 	document.getElementById("myage").style.display = "none";
 	document.getElementById("mystate").style.display = "none";
+	document.getElementById("errorUsername").style.display = "none";
+	document.getElementById("success").style.display = "none";
 	
 	if (name == null || name == "") {
 		document.getElementById("myname").style.display = "block";
@@ -54,7 +56,7 @@ function checkSignUpInfo() {
 			if (xmlHttp.readyState == 4) {
 				var responseDoc = xmlHttp.responseText;
 				var response = eval('(' + responseDoc + ')');
-			 	console.log(responseDoc);
+			 	//console.log(responseDoc);
 			 	//console.log(response.result);
 				if (!response.result) {
 					document.getElementById("errorUsername").style.display = "block";
