@@ -6,7 +6,11 @@ function checkSignUpInfo() {
 	var sta = document.signup.state.selectedIndex;
 	var state = document.signup.state.value;
 	var check = true;
-
+	document.getElementById("myname").style.display = "none";
+	document.getElementById("myrole").style.display = "none";
+	document.getElementById("myage").style.display = "none";
+	document.getElementById("mystate").style.display = "none";
+	
 	if (name == null || name == "") {
 		document.getElementById("myname").style.display = "block";
 		check = false;

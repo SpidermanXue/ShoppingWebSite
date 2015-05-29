@@ -5,7 +5,7 @@
 	int age = Integer.parseInt(request.getParameter("userage"));
 	String role = request.getParameter("userrole");
 	String state = request.getParameter("userstate");
-	System.out.println("joe:::"+ name + age + role + state);
+	//System.out.println("joe:::"+ name + age + role + state);
 //	System.out.println("checking username in jsp");
 	boolean feedback = SignupHelper.checkUsername(request.getParameter("username"));
 	result.put("result", feedback);
