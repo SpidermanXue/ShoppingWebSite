@@ -8,7 +8,7 @@
 	//System.out.println("joe:::"+ name + age + role + state);
 //	System.out.println("checking username in jsp");
 	boolean feedback = SignupHelper.checkUsername(request.getParameter("username"));
-	result.put("result", feedback);
+	result.put("result", feedback); //result and sign up are keys, and put the value inside 
 	if(feedback){
 		result.put("signup", helpers.SignupHelper.signup(name, age, role, state));
 	}
