@@ -30,10 +30,18 @@ public class HelperUtils {
     }
 
     public static Connection connect() throws Exception {
-        Class.forName("org.postgresql.Driver");
-        String url = "jdbc:postgresql://127.0.0.1:5432/postgres";
+    	 Class.forName("org.postgresql.Driver");
+         String url = "jdbc:postgresql://evan-project.cy6dpkmnfr2f.us-west-1.rds.amazonaws.com/evandb";
+         String user = "evandb";
+         String password = "25882568";
+         return DriverManager.getConnection(url, user, password);
+       
+    	/*
+    	 Class.forName("org.postgresql.Driver");
+        String url = "jdbc:postgresql://127.0.0.1:5432/cse135db";
         String user = "postgres";
         String password = "Happy123";
         return DriverManager.getConnection(url, user, password);
+        */
     }
 }
